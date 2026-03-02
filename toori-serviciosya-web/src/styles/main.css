@@ -1,0 +1,327 @@
+/* TOORI BRANDING SYSTEM */
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200;300;400;500;600;700&family=Paytone+One&display=swap');
+
+:root {
+  /* Official Toori Colors */
+  --toori-dark: #4b4e6d;
+  --toori-green: #aecd5a;
+  --toori-green-hover: #9dbd4a;
+  --toori-blue: #3ba8e0;
+  --toori-purple: #874e99;
+  --toori-gray: #d9d9d9;
+
+  /* UI Colors */
+  --bg-white: #ffffff;
+  --bg-soft: #f4f7f6;
+  --text-main: #2d2e3e;
+  --text-muted: #6c757d;
+
+  /* Design Tokens */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  --font-title: 'Paytone One', sans-serif;
+  --font-body: 'Lexend Deca', sans-serif;
+}
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-main);
+  background-color: var(--bg-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-title);
+  font-weight: normal;
+  color: var(--toori-dark);
+}
+
+a {
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+}
+
+/* Navbar */
+.navbar {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  /* Overlays hero if needed, or sticky */
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar--sticky {
+  position: sticky;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  color: var(--toori-dark);
+}
+
+.logo img {
+  height: 48px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--toori-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  color: var(--toori-blue);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  gap: 10px;
+}
+
+.btn-primary {
+  background-color: var(--toori-green);
+  color: white;
+  box-shadow: 0 4px 14px rgba(174, 205, 90, 0.4);
+}
+
+.btn-primary:hover {
+  background-color: var(--toori-green-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--toori-dark);
+  border: 2px solid var(--toori-dark);
+}
+
+.btn-secondary:hover {
+  background-color: var(--toori-dark);
+  color: white;
+}
+
+/* Hero Styles */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 100px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 30%, rgba(255, 255, 255, 0.4) 100%);
+  z-index: 1;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+@media (max-width: 992px) {
+  .hero {
+    text-align: center;
+  }
+
+  .hero .container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-overlay {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.floating-badge {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Cards */
+.card-premium {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 32px;
+  box-shadow: var(--shadow-premium);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.card-premium:hover {
+  transform: translateY(-8px);
+}
+
+/* Utilities */
+.text-center {
+  text-align: center;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.gap-3 {
+  gap: 1.5rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* Security Section specific */
+.security-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+}
+
+.security-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: var(--toori-blue);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: var(--shadow-premium);
+}
+
+/* Fixed Mobile CTA */
+.fixed-mobile-cta {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 24px;
+  background: white;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+  z-index: 2000;
+  border-top: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .fixed-mobile-cta {
+    display: block;
+  }
+}

@@ -29,28 +29,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let html = '';
         data.forEach(oferta => {
-            // Mask phone slightly if needed, but per requirement it's just text
             html += `
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm" style="border-radius: 12px; border: 1px solid #e0e0e0;">
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-success">Nueva Oferta</span>
-                                <span class="text-muted small">ID: #${oferta.id}</span>
-                            </div>
-                            <h5 class="card-title mt-2 mb-3 text-truncate" style="max-height: 48px; overflow: hidden;">
-                                ${oferta.descripcion || "Sin descripción"}
-                            </h5>
-                            <p class="card-text text-muted mb-4">
-                                <i class="bi bi-telephone"></i> ${oferta.cliente_telefono || "No provisto"}
-                            </p>
-                            <div class="mt-auto">
-                                <a href="oferta.html?id=${oferta.id}" class="btn btn-outline-primary w-100" style="border-color: #00bfa6; color: #00bfa6;">
-                                    Ver Detalles y Enviar Presupuesto
-                                </a>
-                            </div>
+                <div class="card-premium" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                            <span style="background: var(--toori-blue); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem;">En gestión</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">#${oferta.id}</span>
                         </div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 8px; font-family: var(--font-body); font-weight: 600;">
+                            ${oferta.descripcion || "Sin descripción"}
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                            <i class="bi bi-geo-alt"></i> Zona de servicio • <i class="bi bi-phone ms-2"></i> ${oferta.cliente_telefono || "Gestión activa"}
+                        </p>
                     </div>
+                    <a href="oferta.html?id=${oferta.id}" class="btn btn-primary w-100" style="padding: 10px; font-size: 0.9rem;">
+                        Gestionar pedido
+                    </a>
                 </div>
             `;
         });

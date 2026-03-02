@@ -22,16 +22,25 @@ Este proyecto unifica la página web estática de base (ServiciosYa) con la lóg
 2. **Configurar Entorno**
    - Copiar `.env.example` a `.env` (`cp .env.example .env`).
    - Rellenar `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` con las credenciales de Supabase.
-3. **Migración de Base de Datos**
+3. **Migraciones de Base de Datos**
    - Ejecutar el script `supabase/migrations/01_safe_migration.sql` en el SQL Editor de Supabase.
-   - Asegurarse de tener el Storage Bucket `avatars` configurado como **público**.
-4. **Ejecutar Desarrollo**
+   - **MIGRACIÓN MVP (Nuevo):** Ejecutar `supabase/migrations/02_registro_docs_geo.sql` para habilitar geolocalización y documentos en el registro.
+4. **Configuración de Storage (Buckets)**
+   Asegurarse de crear los siguientes buckets y configurarlos como **Públicos**:
+   - `avatars`: Almacena fotos de perfil.
+   - `verificaciones`: Almacena documentos de antecedentes y matrículas.
+5. **Ejecutar Desarrollo**
    ```bash
    npm run dev
    ```
    Abre la web en `http://localhost:5173/`. 
    
-## Scripts Adicionales
+## Scripts de Administración
+- **Exportar Categorías a CSV**: 
+  ```bash
+  node scripts/export_categorias.mjs
+  ```
+  Genera `exports/categorias.csv` con el conteo de leads por categoría.
 - `npm run build`: Genera el bundle optimizado para producción en `/dist`.
 - `npm run preview`: Previsualiza la build de `/dist` localmente.
 

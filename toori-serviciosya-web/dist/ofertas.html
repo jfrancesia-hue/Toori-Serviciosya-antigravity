@@ -1,51 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Ofertas - Toori ServiciosYa</title>
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/css/main.css" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/ofertas-C84hxViV.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/supabase-BjQwphcd.js">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ofertas de Trabajo - Toori ServiciosYa</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script type="module" crossorigin src="/assets/ofertas-CF6FpeoS.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-CkHjHRYH.js">
+  <link rel="stylesheet" crossorigin href="/assets/supabase-CUvLgSlK.css">
 </head>
-<body class="index-page">
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="Logo" style="height: 40px; margin-right: 10px;">
-                <h1 class="sitename m-0">Toori ServiciosYa</h1>
+
+<body style="background-color: var(--bg-soft); min-height: 100vh;">
+
+    <!-- Navbar -->
+    <header class="navbar navbar--sticky">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/assets/logo-nativos-BaZV8lPE.png" alt="Toori Logo">
+                <span>Toori ServiciosYa</span>
             </a>
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="ofertas.html" class="active">Ofertas</a></li>
-                    <li><a href="registro.html">Registro</a></li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">Inicio</a>
+                <a href="/ofertas.html" class="nav-link">Ofertas</a>
+                <a href="/registro.html" class="nav-link">Soy Trabajador</a>
             </nav>
         </div>
     </header>
 
-    <main class="main" style="margin-top: 100px; min-height: 80vh;">
-        <section class="section">
-            <div class="container">
-                <div class="section-title text-center">
-                    <h2>Marketplace</h2>
-                    <div><span>Explorando</span> <span class="description-title">Ofertas Disponibles</span></div>
-                </div>
-                <div class="row" id="ofertas-container">
-                    <div class="col-12 text-center" id="loading-ofertas">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <main class="container" style="padding: 60px 0 100px;">
+        <div class="mb-4">
+            <h1>Ofertas Disponibles</h1>
+            <p class="text-muted">Encontrá oportunidades y enviá tu presupuesto hoy mismo.</p>
+        </div>
+
+        <div id="loading-ofertas" class="text-center py-5">
+            <div style="font-size: 2rem; color: var(--toori-blue);"><i class="bi bi-arrow-repeat spin"></i></div>
+            <p class="mt-2 text-muted">Buscando las mejores ofertas para vos...</p>
+        </div>
+
+        <div id="ofertas-container" class="grid"
+            style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;">
+            <!-- Rendered by src/ofertas.ts -->
+        </div>
     </main>
+
+    <!-- Footer -->
+    <footer style="padding: 60px 0 40px; background: white; border-top: 1px solid #f0f0f0;">
+        <div class="container text-center">
+            <div class="logo justify-center mb-3" style="font-size: 1.1rem;">
+                <img src="/assets/logo-nativos-BaZV8lPE.png" alt="Toori Logo">
+                <span>Toori ServiciosYa</span>
+            </div>
+            <p class="text-muted" style="font-size: 0.8rem;">© 2024 Toori ServiciosYa. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <style>
+        .justify-center {
+            justify-content: center;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+    </style>
 
 </body>
+
 </html>

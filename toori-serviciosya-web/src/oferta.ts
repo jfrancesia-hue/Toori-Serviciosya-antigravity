@@ -30,55 +30,61 @@ document.addEventListener('DOMContentLoaded', async () => {
             .order('monto', { ascending: true });
 
         const presupuestosListHTML = (presupuestos || []).map(p => `
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>$${p.monto} - ${p.descripcion || 'Sin nota'} 
-                    ${p.matriculado ? '<span class="badge bg-info ms-2">Matriculado</span>' : ''}
-                </span>
-                <span class="badge ${p.estado === 'seleccionado' ? 'bg-success' : 'bg-secondary'} rounded-pill">${p.estado}</span>
+            <li style="padding: 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700; font-size: 1.25rem; color: var(--toori-blue); margin-bottom: 4px;">$${p.monto}</div>
+                    <div style="font-size: 0.9rem; color: var(--text-main); font-weight: 500;">${p.descripcion || 'Sin nota adicional'}</div>
+                    ${p.matriculado ? '<span style="font-size: 0.7rem; background: #e3f2fd; color: #1976d2; padding: 2px 8px; border-radius: 4px; margin-top: 8px; display: inline-block;">Matriculado</span>' : ''}
+                </div>
+                <span style="background: ${p.estado === 'seleccionado' ? 'var(--toori-green)' : 'var(--toori-gray)'}; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem;">${p.estado}</span>
             </li>
         `).join('');
 
         container.innerHTML = `
-            <div class="card shadow" style="border-radius: 12px; border:none;">
-                <div class="card-body p-5">
-                    <h2 class="mb-4">Detalle de la Oferta #${oferta.id}</h2>
-                    <div class="mb-4">
-                        <span class="badge bg-warning text-dark mb-2">${oferta.estado}</span>
-                        <p class="lead">${oferta.descripcion || "Sin descripción detallada."}</p>
-                        <p class="text-muted"><i class="bi bi-telephone"></i> Teléfono cliente: ${oferta.cliente_telefono}</p>
+            <div class="detail-grid">
+                <!-- Left: Offer Detail -->
+                <div>
+                    <div class="card-premium" style="margin-bottom: 32px; padding: 40px;">
+                        <span style="background: var(--toori-blue); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; margin-bottom: 1rem; display: inline-block;">Gestión Activa</span>
+                        <h2 style="margin-bottom: 1.5rem; font-size: 2rem;">Pedido #${oferta.id}</h2>
+                        <p style="font-size: 1.25rem; margin-bottom: 2rem; color: var(--text-main); line-height: 1.6;">${oferta.descripcion || "Detalle del requerimiento en análisis."}</p>
+                        <div style="padding-top: 2rem; border-top: 1px solid #eee;">
+                            <p class="text-muted" style="font-size: 0.9rem;"><i class="bi bi-shield-check"></i> Gestión con Respaldo Toori • ID: <span style="font-weight: 600; color: var(--toori-dark);">${oferta.id}</span></p>
+                        </div>
                     </div>
 
-                    <hr class="my-4">
+                    <div class="card-premium" style="padding: 40px;">
+                        <h4 style="margin-bottom: 2rem; font-family: var(--font-body); font-weight: 700;">Propuestas de Profesionales (${presupuestos?.length || 0})</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            ${presupuestosListHTML || '<li class="text-muted">Aún no hay presupuestos. ¡Sé el primero!</li>'}
+                        </ul>
+                        
+                        <button id="btn-top3" class="btn btn-secondary w-100 mt-4" style="font-size: 0.9rem; padding: 12px;">
+                            <i class="bi bi-magic"></i> Seleccionar TOP 3 Automáticamente
+                        </button>
+                    </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="mb-3">Enviar Presupuesto</h4>
-                            <form id="presupuesto-form">
-                                <div class="mb-3">
-                                    <label class="form-label">Monto ($)</label>
-                                    <input type="number" id="form-monto" class="form-control" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Mensaje / Descripción</label>
-                                    <textarea id="form-desc" class="form-control" rows="3" required></textarea>
-                                </div>
-                                <button type="submit" id="btn-enviar" class="btn btn-primary w-100" style="background-color: #00bfa6; border:none;">
-                                    Enviar Presupuesto
-                                </button>
-                                <div id="form-alert" class="mt-3 d-none alert" role="alert"></div>
-                            </form>
-                        </div>
-                        <div class="col-md-6 mt-4 mt-md-0">
-                            <h4 class="mb-3">Presupuestos Enviados <span class="badge bg-secondary">${presupuestos?.length || 0}</span></h4>
-                            <ul class="list-group mb-3">
-                                ${presupuestosListHTML || '<li class="list-group-item text-muted">Aún no hay presupuestos. Sé el primero.</li>'}
-                            </ul>
-                            
-                            <!-- ADMIN TOP 3 Selection Button -->
-                            <button id="btn-top3" class="btn btn-outline-dark btn-sm w-100 mt-2">
-                                <i class="bi bi-magic"></i> Seleccionar TOP 3 Automáticamente (Modo Admin)
+                <!-- Right: Sticky Form -->
+                <div style="position: sticky; top: 120px; align-self: start;">
+                    <div class="card-premium" style="padding: 40px; background: white;">
+                        <h4 style="margin-bottom: 1.5rem; font-family: var(--font-body); font-weight: 700;">Postularme a este pedido</h4>
+                        <p class="text-muted mb-4" style="font-size: 0.9rem;">Tu propuesta será analizada por nuestro equipo de gestión antes de ser presentada al cliente.</p>
+                        <form id="presupuesto-form">
+                            <div class="form-group">
+                                <label for="form-monto">Tu presupuesto estimado ($)</label>
+                                <input type="number" id="form-monto" class="form-control" placeholder="Ej: 5000" required>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); mt-1">Sujeto a validación técnica.</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-desc">Nota para el seleccionador</label>
+                                <textarea id="form-desc" class="form-control" rows="5" placeholder="Detallá tu experiencia y por qué sos ideal para este trabajo..." required></textarea>
+                            </div>
+                            <button type="submit" id="btn-enviar" class="btn btn-primary w-100" style="padding: 16px;">
+                                Enviar para revisión
                             </button>
-                        </div>
+                            <div id="form-alert" class="mt-4" style="display: none; padding: 16px; border-radius: 12px; font-size: 0.9rem; text-align: center;"></div>
+                        </form>
                     </div>
                 </div>
             </div>
