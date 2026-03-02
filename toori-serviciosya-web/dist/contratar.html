@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios Ya - Encontrá Profesionales</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <!-- =========================
+       META PIXEL
+       ========================= -->
+  <script>
+    const META_PIXEL_ID = "907768428637539";
+  </script>
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', META_PIXEL_ID);
+    fbq('track', 'PageView');
+  </script>
+  
+
+  <style>
+    :root {
+      --verde-bg: #00c0a5;
+      --naranja-btn: #ff9d43;
+      --wa-btn: #25D366;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      background-color: var(--verde-bg);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .container { padding: 20px; max-width: 520px; width: 100%; }
+    .logo { width: 100px; margin-bottom: 20px; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+
+    .search-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 25px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .input-group {
+      background: white;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      margin-bottom: 12px;
+    }
+
+    .input-group i { color: var(--verde-bg); margin-right: 10px; }
+
+    input {
+      border: none; outline: none; width: 100%;
+      font-size: 1rem; color: #333;
+    }
+
+    .gps-btn {
+      background: none; border: none;
+      color: var(--verde-bg); font-weight: bold;
+      cursor: pointer; display: flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+
+    .btn {
+      color: white; border: none;
+      padding: 16px; border-radius: 50px;
+      font-size: 1.05rem; font-weight: 800;
+      cursor: pointer; width: 100%;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+    .btn:hover { transform: scale(1.01); }
+
+    .btn-main { background-color: var(--naranja-btn); }
+    .btn-main:hover { background-color: #f08c35; }
+
+    .btn-wa {
+      background-color: var(--wa-btn);
+      margin-top: 10px;
+    }
+    .btn-wa:hover { filter: brightness(0.95); }
+
+    .microcopy {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.95);
+      font-weight: 600;
+    }
+
+    .promesa {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.92);
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    #status { margin-top: 15px; font-size: 14px; font-weight: 700; min-height: 20px; }
+
+    .divider {
+      margin: 14px 0 8px;
+      opacity: 0.85;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* ===== Sugerencias de ciudad (autocomplete AR) ===== */
+    #loc_suggest {
+      display: none;
+      text-align: left;
+      margin-top: -6px;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.98);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .loc-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .loc-item:hover {
+      background: rgba(0,0,0,0.06);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="https://inicio.serviciosya.info/assets/img/logo.png" alt="Toori ServiciosYa" class="logo">
+
+    <h1>Buscá un profesional</h1>
+    <p>Usá tu ubicación para ver profesionales cercanos.</p>
+
+    <div class="search-card">
+      <div class="input-group">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          id="srv"
+          list="categorias_list"
+          placeholder="¿Qué necesitás? (ej: Plomero, Electricista)"
+        >
+      </div>
+
+      <div class="input-group">
+        <i class="fas fa-location-arrow"></i>
+        <input type="text" id="loc" placeholder="Tu ciudad">
+        <button type="button" class="gps-btn" onclick="detectarUbicacion()">
+          <i class="fas fa-crosshairs"></i> GPS
+        </button>
+      </div>
+
+      <!-- Sugerencias de ciudades -->
+      <div id="loc_suggest"></div>
+
+      <!-- Botón principal (App) -->
+      <button type="button" id="btnBusqueda" class="btn btn-main" onclick="irALaTienda()">
+        <i class="fas fa-magnifying-glass"></i> Buscar Profesional
+      </button>
+
+      <div class="microcopy">🔓 Buscar es gratis · Sin comisiones ocultas</div>
+
+      <p class="promesa">⚡ Encontrá profesionales disponibles en tu zona para cotizar hoy desde la app.</p>
+
+      <div class="divider">¿Preferís que te ayudemos por WhatsApp?</div>
+
+      <!-- Botón WhatsApp (Lead) -->
+      <button type="button" id="btnWhatsapp" class="btn btn-wa" onclick="irAWhatsapp()">
+        <i class="fab fa-whatsapp"></i> Quiero que me contacten
+      </button>
+
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <!-- Datalist categorías -->
+  <datalist id="categorias_list"></datalist>
+
+  <script>
+    // =========================
+    // CONFIGURACIÓN
+    // =========================
+    const WHATSAPP_PHONE_E164 = "5493834035427";
+
+    const ANDROID_BASE = "https://play.google.com/store/apps/details?id=com.alex_6775.appTrabajo";
+    const IOS_BASE = "https://apps.apple.com/ar/app/servicios-ya/id6747944823";
+
+    const UTM = {
+      utm_source: "meta",
+      utm_medium: "cpc",
+      utm_campaign: "contrataciones"
+    };
+
+    function getDevice() {
+      const ua = navigator.userAgent || navigator.vendor || window.opera;
+      const isAndroid = /android/i.test(ua);
+      const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      return { ua, isAndroid, isIOS, isMobile: isAndroid || isIOS };
+    }
+
+    // =========================
+    // CATEGORÍAS (autocomplete)
+    // =========================
+    const categoriasDisponibles = [
+      "Mi Primer Trabajo","general","Servicio","Electricista","Plomero","Pintor","Carpintero","Cerrajero","Mecánico",
+      "Jardinero","Mudanzas","Profesor particular","Disenador gráfico","Programador","Contador","Fotógrafo","Veterinario",
+      "Asistente virtual","Estilista","Tatuador","Marketing","Traductor","Cuidado de niños","Cuidado de ancianos",
+      "Entrenador personal","Técnico de PC","Desarrollador web","Servicio de limpieza","Chofer privado","Decorador de interiores",
+      "Chef personal","Organizador de eventos","Masajista","Fletes","Albañil","Reparaciones en el hogar","Community Manager",
+      "Editor de video","Paseador de perros","Atención al cliente","Reparación de celulares","Profesor de música",
+      "Gomeria","Mecanico","Electromecanico","Soldador","Gasista","Herrero","Asistente contable","Psicólogo","Kinesiólogo",
+      "Nutricionista","Enfermero","Disenador UX/UI","Ilustrador","Guionista","Camarógrafo","Gestor de redes","Tester QA",
+      "Coach de vida","Terapista ocupacional","Maquillador profesional","Manicurista","Técnico en refrigeración","Montador de muebles",
+      "Bartender","Mozos para eventos","Dj para eventos","Instalador de cámaras","Animador infantil","Profesor de yoga",
+      "Instructor de manejo","Lavado de autos","guarderia de mascotas","Personal de seguridad","Coach financiero","Redactor de contenidos",
+      "Consultor de negocios","Instalador de paneles solares","Reparador de electrodomésticos","Tapicero","Modista","Sastre",
+      "Montador de estructuras","Disenador industrial","Fotógrafo de producto","Traductor jurado","Desarrollador de apps",
+      "Gestor de ecommerce","Abogado","Artesano","Consultor ambiental","Encargado de depósito","Camarero","Panadero","Pastelero",
+      "Delivery","Personal de limpieza de oficinas","Ingeniero","Médico","Arquitecto","Odontólogo","Salón de fiestas infantiles",
+      "Salón de fiestas","Decoraciones para eventos","Instalador de aire acondicionado","Gestor de trámites","Peluquería de mascotas",
+      "Cocinero","Ayudante de cocina","Empleada doméstica","Limpieza comercial","chef ","Cursos","alquiler de Quinchos o locales",
+      "publicidad de Radios o medios"
+    ];
+
+    const categoriasNormalizadas = [...new Set(
+      categoriasDisponibles.map(c =>
+        c.trim()
+         .toLowerCase()
+         .replace(/\b\w/g, l => l.toUpperCase())
+      )
+    )].sort();
+
+    const datalist = document.getElementById("categorias_list");
+    datalist.innerHTML = categoriasNormalizadas.map(cat => `<option value="${cat}"></option>`).join("");
+
+    // =========================
+    // GPS
+    // =========================
+    function detectarUbicacion() {
+      const status = document.getElementById('status');
+      const locInput = document.getElementById('loc');
+      if (!navigator.geolocation) return;
+
+      status.innerHTML = '<span style="color: #fff;">Localizando...</span>';
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`
+          );
+          const data = await response.json();
+          locInput.value = data.address.city || data.address.town || data.address.village || "Ubicación detectada";
+          status.innerHTML = "";
+        } catch (e) {
+          locInput.value = "Ubicación detectada";
+          status.innerHTML = "";
+        }
+      }, () => {
+        status.innerHTML = '<span style="color: #fff;">No se pudo obtener el GPS</span>';
+      });
+    }
+
+    // =========================
+    // AUTOCOMPLETE CIUDADES ARG
+    // =========================
+    let locTimer = null;
+
+    function hideLocSuggest() {
+      const box = document.getElementById("loc_suggest");
+      box.style.display = "none";
+      box.innerHTML = "";
+    }
+
+    async function fetchArgentinaPlaces(query) {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=ar&limit=6&addressdetails=1&q=${encodeURIComponent(query)}`;
+      const res = await fetch(url, { headers: { "Accept": "application/json" }});
+      return await res.json();
+    }
+
+    function formatPlace(item) {
+      const a = item.address || {};
+      const city = a.city || a.town || a.village || a.municipality || a.county || "";
+      const state = a.state || "";
+      const label = [city || item.name || item.display_name, state].filter(Boolean).join(", ");
+      return label || item.display_name;
+    }
+
+    function setupArgentinaCityAutocomplete() {
+      const input = document.getElementById("loc");
+      const box = document.getElementById("loc_suggest");
+
+      input.addEventListener("input", () => {
+        const q = input.value.trim();
+        if (locTimer) clearTimeout(locTimer);
+
+        if (q.length < 3) {
+          hideLocSuggest();
+          return;
+        }
+
+        locTimer = setTimeout(async () => {
+          try {
+            const results = await fetchArgentinaPlaces(q);
+            if (!results || results.length === 0) {
+              hideLocSuggest();
+              return;
+            }
+
+            box.innerHTML = results.map(r => {
+              const label = formatPlace(r);
+              return `<div class="loc-item" data-label="${encodeURIComponent(label)}">${label}</div>`;
+            }).join("");
+
+            box.style.display = "block";
+
+            box.querySelectorAll(".loc-item").forEach(el => {
+              el.addEventListener("click", () => {
+                input.value = decodeURIComponent(el.getAttribute("data-label"));
+                hideLocSuggest();
+              });
+            });
+          } catch (e) {
+            hideLocSuggest();
+          }
+        }, 250);
+      });
+
+      input.addEventListener("blur", () => setTimeout(hideLocSuggest, 180));
+      input.addEventListener("focus", () => {
+        if (input.value.trim().length >= 3) input.dispatchEvent(new Event("input"));
+      });
+    }
+
+    setupArgentinaCityAutocomplete();
+
+    // =========================
+    // INTENCIÓN + TRACKING
+    // =========================
+    function saveIntent({ srv, loc }) {
+      try {
+        const payload = { srv, loc, ts: new Date().toISOString(), ...UTM };
+        localStorage.setItem("sy_intent", JSON.stringify(payload));
+      } catch (e) {}
+    }
+
+    function safeFbqTrack(eventName, params) {
+      try {
+        if (typeof fbq === "function") fbq('track', eventName, params || {});
+      } catch (e) {}
+    }
+
+    function buildAndroidLink(params) {
+      const ref = new URLSearchParams(params).toString();
+      return `${ANDROID_BASE}&referrer=${encodeURIComponent(ref)}`;
+    }
+
+    function buildIOSLink(params) {
+      const qs = new URLSearchParams(params).toString();
+      return `${IOS_BASE}?${qs}`;
+    }
+
+    function validateFields() {
+      const srv = document.getElementById('srv').value.trim();
+      const loc = document.getElementById('loc').value.trim();
+      const status = document.getElementById('status');
+
+      if (!srv) {
+        status.innerHTML = '<span style="background: #ff4b2b; color: white; padding: 6px 12px; border-radius: 10px;">⚠️ Por favor, ingresá qué necesitás</span>';
+        return { ok: false };
+      }
+      return { ok: true, srv, loc };
+    }
+
+    // =========================
+    // CTA 1: TIENDA / APP
+    // =========================
+    function irALaTienda() {
+      const btn = document.getElementById('btnBusqueda');
+      const status = document.getElementById('status');
+
+      const v = validateFields();
+      if (!v.ok) return;
+
+      saveIntent({ srv: v.srv, loc: v.loc });
+
+      safeFbqTrack("InitiateCheckout", {
+        content_name: v.srv,
+        content_category: "Servicios",
+        city: v.loc || "sin_ciudad"
+      });
+
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+      btn.disabled = true;
+      status.innerHTML = `<span style="color: #fff;">🔎 Buscando profesionales en ${v.loc || 'tu zona'}...</span>`;
+
+      const trackingParams = { ...UTM, srv: v.srv, loc: v.loc };
+      const androidLink = buildAndroidLink(trackingParams);
+      const iosLink = buildIOSLink(trackingParams);
+
+      setTimeout(() => {
+        const { isAndroid, isIOS } = getDevice();
+        if (isAndroid) { window.location.href = androidLink; return; }
+        if (isIOS) { window.location.href = iosLink; return; }
+        window.location.href = androidLink;
+      }, 650);
+    }
+
+    // =========================
+    // CTA 2: WHATSAPP (LEAD)
+    // =========================
+    function irAWhatsapp() {
+      const btnWa = document.getElementById('btnWhatsapp');
+      const status = document.getElementById('status');
+
+      const v = validateFields();
+      if (!v.ok) return;
+
+      saveIntent({ srv: v.srv, loc: v.loc });
+
+      safeFbqTrack("Lead", {
+        content_name: v.srv,
+        content_category: "Servicios",
+        city: v.loc || "sin_ciudad"
+      });
+
+      btnWa.disabled = true;
+      btnWa.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Abriendo WhatsApp...';
+
+      const msg =
+        `Hola! Soy cliente y necesito contratar un servicio.\n` +
+        `Servicio: ${v.srv}\n` +
+        `Ciudad/Zona: ${v.loc || 'No indiqué'}\n\n` +
+        `Vengo desde Toori ServiciosYa. ¿Me ayudás a contratar?`;
+
+      const waUrl = `https://wa.me/${WHATSAPP_PHONE_E164}?text=${encodeURIComponent(msg)}`;
+
+      status.innerHTML = `<span style="color:#fff;">✅ Te conectamos por WhatsApp para ayudarte a contratar</span>`;
+
+      setTimeout(() => {
+        window.location.href = waUrl;
+        setTimeout(() => {
+          btnWa.disabled = false;
+          btnWa.innerHTML = '<i class="fab fa-whatsapp"></i> Quiero que me contacten';
+        }, 1500);
+      }, 350);
+    }
+  </script>
+</body>
+</html>

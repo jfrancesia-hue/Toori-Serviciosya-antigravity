@@ -1,0 +1,16 @@
+// schema.prisma
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql", url = env("DATABASE_URL") }
+
+model Offer {
+  id              String      @id @default(uuid())
+  estado          OfferStatus @default(DRAFT)
+  quotes          Quote[]
+}
+
+model Quote {
+  id             String      @id @default(uuid())
+  score_total    Float?
+  score_detalle  Json?
+}
+// ... rest of models (Rating, Payment, AuditEvent, IdempotencyKey)

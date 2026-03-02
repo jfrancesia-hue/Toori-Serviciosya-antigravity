@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Registro Trabajador - Toori ServiciosYa</title>
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <style>
+        .profile-pic-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            margin: 0 auto 20px;
+            position: relative;
+            cursor: pointer;
+            border: 3px solid #00bfa6;
+        }
+
+        .profile-pic-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-pic-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="index-page">
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+                <img src="assets/img/logo.png" alt="Logo" style="height: 40px; margin-right: 10px;">
+                <h1 class="sitename m-0">Toori ServiciosYa</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="ofertas.html">Ofertas</a></li>
+                    <li><a href="registro.html" class="active">Registro</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main" style="margin-top: 100px; min-height: 80vh;">
+        <section class="section">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h2>Registro</h2>
+                    <div><span>Únete a</span> <span class="description-title">Toori ServiciosYa</span></div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <form id="registro-form" class="card shadow-sm p-4">
+
+                            <div class="text-center mb-4">
+                                <label for="foto-input" class="profile-pic-container">
+                                    <img id="foto-preview" src="assets/img/team/team-1.jpg" alt="Preview Foto">
+                                    <div class="profile-pic-overlay">Subir foto</div>
+                                </label>
+                                <input type="file" id="foto-input" class="hidden-file-input" accept="image/*">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre completo</label>
+                                <input type="text" id="reg-nombre" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Edad</label>
+                                <input type="number" id="reg-edad" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Número de celular (con código país)</label>
+                                <input type="text" id="reg-telefono" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Profesión</label>
+                                <input type="text" id="reg-profesion" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">DNI</label>
+                                <input type="number" id="reg-dni" class="form-control" required>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label">Ciudad</label>
+                                    <input type="text" id="reg-ciudad" class="form-control" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label">País</label>
+                                    <input type="text" id="reg-pais" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Años de antigüedad</label>
+                                <input type="number" step="0.1" id="reg-antiguedad" class="form-control"
+                                    placeholder="Ej: 2.5" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Antecedentes (Opcional)</label>
+                                <textarea id="reg-antecedentes" class="form-control" rows="2"></textarea>
+                            </div>
+
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="reg-matricula">
+                                <label class="form-check-label" for="reg-matricula">Posee matrícula profesional</label>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="reg-terminos" required>
+                                <label class="form-check-label" for="reg-terminos">
+                                    Acepto los <a href="Terminos-y-condiciones.html" target="_blank">términos y
+                                        condiciones</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" id="btn-submit-reg" class="btn btn-primary w-100"
+                                style="background-color: #ffa13c; border:none; padding:12px; font-weight:600;">
+                                Finalizar Registro
+                            </button>
+
+                            <div id="reg-alert" class="alert mt-3 d-none" role="alert"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="/src/registro.ts"></script>
+</body>
+
+</html>

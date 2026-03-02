@@ -1,0 +1,483 @@
+Prompt maestro — Fusión Toori ServiciosYa (WhatsApp + IA + Marketplace + Ranking + Pago + Contacto)
+
+Rol: Sos un Arquitecto de Software Senior + Tech Lead Full-Stack. Tu misión es diseñar e implementar una plataforma end-to-end para una fusión de plataformas (Toori + ServiciosYa) basada en captación por WhatsApp, automatización con IA, publicación en app/web, recepción y ranking de presupuestos, cobro de comisión y liberación de datos de contacto sólo tras pago confirmado.
+
+0) Objetivo del sistema
+
+Construir un sistema que permita:
+
+Captar pedidos por WhatsApp con un asistente IA que haga preguntas y estructure datos.
+
+Guardar el pedido como nuevaOferta (lead/oferta) en BD.
+
+Publicar esa oferta a trabajadores disponibles (app nativa + web).
+
+Recibir presupuestos, rankear automáticamente y seleccionar Top 3.
+
+Enviar Top 3 al cliente por WhatsApp sin datos de contacto.
+
+Cliente elige uno → se genera link de pago (monto + 15% comisión).
+
+Confirmado el pago por webhook → registrar en presupuestoPagado, liberar contactos y cerrar ciclo.
+
+1) Alcance del MVP (imprescindible)
+
+WhatsApp inbound/outbound operativo.
+
+IA conversacional con “formulario inteligente” (preguntas + validaciones).
+
+Base de datos con ofertas/presupuestos/usuarios/ratings/pagos/auditoría.
+
+App web (mínimo) + app nativa (mínimo) consumiendo API.
+
+Trabajadores pueden ver ofertas y enviar presupuestos.
+
+Ranking + Top 3 automático.
+
+Pagos con MercadoPago (prioridad Argentina) o Stripe (alternativa).
+
+Webhooks seguros y estados consistentes.
+
+Liberación de datos de contacto sólo luego de “pago_confirmado”.
+
+2) Requisitos no funcionales
+
+Multi-tenant (Toori / ServiciosYa / futuros partners) por tenant_id.
+
+Seguridad: HTTPS, JWT + refresh, RLS si aplica, validación webhook por firma, rate limiting.
+
+Observabilidad: logs estructurados, trazas por correlation_id, métricas.
+
+Escalabilidad: arquitectura modular o microservicios con eventos (cola) para pagos y notificaciones.
+
+Idempotencia: webhooks y acciones críticas deben ser idempotentes.
+
+Tolerancia a fallos: reintentos controlados, dead-letter queue si hay cola.
+
+3) Arquitectura propuesta (recomendada)
+Opción A (MVP rápido, modular monolito)
+
+Backend API: Node.js (NestJS)
+
+Servicio WhatsApp + IA: módulo interno (o microservicio separado si crece)
+
+Servicio Ranking: Python (FastAPI) opcional (o módulo Node para MVP)
+
+BD: PostgreSQL
+
+Cache: Redis (ranking y colas simples)
+
+Cola/eventos: RabbitMQ (o Redis Streams como MVP)
+
+Apps: Web Next.js + App React Native
+
+Infra: AWS/GCP/Azure (container + managed DB)
+
+Opción B (Microservicios “bien pro” desde el inicio)
+
+Microservicio whatsapp-ia
+
+Microservicio core-api
+
+Microservicio ranking
+
+Microservicio payments
+
+Bus de eventos (RabbitMQ/Kafka)
+
+ELK para logs + OpenTelemetry
+
+Elegí A para arrancar rápido y dejar puntos de separación claros.
+
+4) Modelo de datos (PostgreSQL) — Tablas mínimas
+
+Todo con tenant_id, created_at, updated_at y estados.
+
+4.1 Usuarios
+
+users: id, tenant_id, email, phone, role (cliente, trabajador, admin), status
+
+workers_profile: user_id, rubros, zonas, disponibilidad, verificado
+
+clients_profile: user_id, nombre, domicilio_base
+
+4.2 Ofertas / Leads (nuevaOferta)
+
+offers:
+
+id (uuid)
+
+tenant_id
+
+source (whatsapp, web, app)
+
+nuevaOferta (jsonb) campo principal con datos estructurados por IA
+
+categoria, subcategoria, zona, urgencia, presupuesto_estimado (opcional)
+
+estado: draft, publicada, en_presupuestos, top3_enviado, seleccionado, pagado, cerrado, cancelado
+
+client_user_id (nullable si aún no está registrado)
+
+whatsapp_thread_id / conversation_id
+
+JSONB nuevaOferta sugerido:
+
+descripcion, direccion, geoloc, fotos (urls), fecha_preferida, urgencia, categoria, restricciones, horario_contacto, etc.
+
+4.3 Presupuestos
+
+quotes:
+
+id, offer_id, worker_user_id
+
+precio, moneda, tiempo_entrega, comentario
+
+estado: enviado, top3, rechazado, aceptado_por_cliente, pagado, finalizado
+
+score_total, score_detalle (jsonb)
+
+created_at
+
+4.4 Reputación
+
+ratings:
+
+id, tenant_id, offer_id, worker_user_id, client_user_id
+
+estrellas (1-5), comentario, puntualidad, calidad, etc.
+
+4.5 Pagos / Comisión
+
+payments (equivalente a presupuestoPagado):
+
+id, tenant_id
+
+quote_id, offer_id
+
+provider (mercadopago/stripe)
+
+amount_total, amount_base, commission_amount, commission_percent (=0.15)
+
+status: pending, paid, failed, refunded
+
+provider_payment_id, provider_payload (jsonb)
+
+paid_at
+
+4.6 Auditoría / Eventos
+
+audit_events: id, tenant_id, actor_user_id, action, entity, entity_id, metadata jsonb, created_at
+
+domain_events (si usan event bus): id, type, payload jsonb, status, retries, created_at
+
+5) WhatsApp + IA — Flujo detallado (Captación)
+5.1 Entrada
+
+Cliente escribe “Hola” o describe problema.
+
+Webhook WhatsApp recibe mensaje.
+
+Se crea/actualiza conversation + offer en estado draft.
+
+IA guía un formulario conversacional:
+
+categoría (electricidad/plomería/etc.)
+
+descripción breve
+
+ubicación
+
+urgencia
+
+fecha/hora preferida
+
+fotos (si hay)
+
+Validar y normalizar datos (teléfono, dirección, fecha).
+
+Guardar en offers.nuevaOferta (jsonb) + campos indexables (categoria, zona, urgencia).
+
+5.2 Motor IA
+
+Use tool calling / function calling con un “schema” estricto:
+
+update_offer(data) para escribir nuevaOferta
+
+ask_next_question() en base a faltantes
+
+finalize_offer() cuando está completo
+
+Reglas IA:
+
+No inventar datos.
+
+Si falta algo clave → preguntar.
+
+Confirmar resumen final: “Te entiendo: … ¿Confirmás?”
+
+Si confirma → estado=publicada y dispara evento offer.published.
+
+6) Publicación en app/web
+6.1 App/Web
+
+Listado de ofertas disponibles para trabajadores según:
+
+rubro/categoría compatible
+
+zona cercana
+
+disponibilidad
+
+(opcional) verificación o tier
+
+6.2 API
+
+REST recomendado (MVP).
+
+Endpoints mínimos:
+
+POST /auth/login + refresh
+
+GET /offers?status=publicada
+
+GET /offers/:id
+
+POST /offers/:id/quotes (trabajador envía presupuesto)
+
+GET /workers/me/quotes
+
+POST /quotes/:id/cancel etc.
+
+7) Recepción y Ranking automático (Top 3)
+7.1 Disparador
+
+Cada nuevo quote genera evento quote.created.
+
+Se recalcula ranking para esa offer.
+
+7.2 Scoring ponderado (ejemplo)
+
+Variables:
+
+Precio (más bajo mejor)
+
+Rating del trabajador (más alto mejor)
+
+Tiempo de entrega (más corto mejor)
+
+Bonus verificado / penalidad cancelaciones
+
+Fórmula (normalizar 0..1) y ponderar:
+
+score = 0.45*price_score + 0.35*rating_score + 0.20*time_score
+
+Guardar:
+
+quotes.score_total
+
+quotes.score_detalle
+
+7.3 Selección Top 3
+
+Top 3 por score.
+
+Cambiar estado:
+
+quotes top: top3
+
+offer: top3_enviado (si ya hay al menos 3)
+
+7.4 Cache
+
+Redis para ranking por offer:
+
+key: offer:{id}:top_quotes
+
+TTL corto (ej. 5 min) + actualización por evento
+
+8) Presentación al cliente por WhatsApp + Selección + Pago
+8.1 WhatsApp: enviar Top 3 sin contacto
+
+Mostrar:
+
+Opción A: precio, tiempo estimado, rating, breve bio (sin teléfono ni redes)
+
+Opción B…
+
+Opción C…
+Pedir: “Elegí 1, 2 o 3”.
+
+8.2 Selección
+
+Cliente responde “2”.
+
+Backend marca quote.estado = aceptado_por_cliente
+
+Offer estado = seleccionado
+
+8.3 Link de pago
+
+amount_total = quote.precio * 1.15 (15% comisión)
+
+Generar preferencia/checkout:
+
+MercadoPago (preferencia) o Stripe (Checkout Session)
+
+Enviar link por WhatsApp.
+
+8.4 Webhook (confirmación)
+
+Endpoint /webhooks/payments/provider
+
+Validar firma:
+
+MercadoPago: validar con token/secret y consultar payment
+
+Stripe: verificar Stripe-Signature
+
+Idempotencia por provider_payment_id.
+
+Si pagado:
+
+insertar payments (presupuestoPagado)
+
+actualizar quote.estado = pagado
+
+actualizar offer.estado = pagado
+
+emitir evento payment.paid
+
+9) Liberación de datos y cierre
+
+Al evento payment.paid:
+
+Enviar por WhatsApp al cliente:
+
+Nombre del trabajador + teléfono + instrucciones
+
+Enviar al trabajador:
+
+Datos del cliente + dirección + chat/hilo
+
+Habilitar contacto directo (in-app chat opcional o WhatsApp directo).
+
+Cierre:
+
+cuando se marca como finalizado → pedir rating.
+
+10) Seguridad y cumplimiento
+
+No exponer teléfonos hasta pago.
+
+En la app, ocultar datos sensibles:
+
+dirección exacta sólo a “pagado”
+
+Rate limit en endpoints de WhatsApp y auth.
+
+Sanitización de inputs.
+
+RLS si usan Supabase/Postgres con políticas.
+
+Logs sin datos sensibles (enmascarar teléfonos en logs).
+
+11) Entregables que debés producir (como Antigravity)
+
+Diagrama de arquitectura (texto + componentes).
+
+Especificación de BD (DDL SQL).
+
+API spec (OpenAPI/Swagger).
+
+Servicio WhatsApp + IA:
+
+Webhook receiver
+
+Orquestador IA (function calling)
+
+Persistencia offers.nuevaOferta
+
+Módulo quotes + ranking + Top 3.
+
+Integración pagos + webhooks + tabla payments.
+
+Frontend Web (Next.js) mínimo:
+
+login trabajador
+
+listado ofertas
+
+enviar presupuesto
+
+Checklist de despliegue (Docker + env vars).
+
+Pruebas:
+
+unitarias (ranking, estados)
+
+integración (webhook pagos idempotente)
+
+“happy path” end-to-end
+
+12) Estados y reglas de negocio (muy importante)
+
+Definir máquina de estados para offers y quotes.
+
+Offers:
+draft → publicada → en_presupuestos → top3_enviado → seleccionado → pagado → cerrado
+y cancelado en cualquier punto.
+
+Quotes:
+enviado → top3 → aceptado_por_cliente → pagado → finalizado
+y rechazado/cancelado.
+
+Reglas:
+
+No se puede enviar Top 3 si hay < 3 presupuestos (opcional: enviar 1 o 2 pero marcar “parcial”).
+
+No se puede liberar contacto si payment.status != paid.
+
+Webhooks siempre idempotentes.
+
+Si pago falla → permitir reintentar link.
+
+13) Variables de entorno (mínimas)
+
+WHATSAPP_PROVIDER, WHATSAPP_TOKEN, WHATSAPP_VERIFY_TOKEN
+
+OPENAI_API_KEY (o Azure)
+
+DATABASE_URL
+
+REDIS_URL
+
+MERCADOPAGO_ACCESS_TOKEN / STRIPE_SECRET_KEY
+
+WEBHOOK_SECRET (firma)
+
+BASE_URL (links)
+
+TENANT_DEFAULT
+
+14) Plan de implementación (orden estricto)
+
+BD + modelos + estados + seed tenant.
+
+WhatsApp webhook + guardar offer draft.
+
+IA formulario + nuevaOferta jsonb + confirmación.
+
+Publicación en web (listado ofertas).
+
+Enviar presupuesto.
+
+Ranking + Top 3.
+
+WhatsApp: enviar Top 3 y capturar elección.
+
+Pago + webhook + registro payments.
+
+Liberación de contacto.
+
+Rating + cierre.

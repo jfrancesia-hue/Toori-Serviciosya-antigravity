@@ -1,0 +1,342 @@
+PROMPT PARA ESCALAR DE BÁSICO → FULL ENTERPRISE
+SYSTEM DIRECTIVE — MODO FULL PRODUCCIÓN
+
+La infraestructura básica ya está completada.
+Ahora debes convertir cada módulo en una implementación FULL PRODUCTION READY.
+
+No generar más estructuras vacías.
+No generar placeholders.
+No generar TODO comments.
+No generar mocks simples.
+
+Cada función debe estar:
+
+100% implementada
+
+Validada
+
+Con manejo de errores
+
+Con logs estructurados
+
+Con tipado fuerte
+
+Con tests
+
+Con validación de estados
+
+Con seguridad aplicada
+
+Con manejo de edge cases
+
+🔴 OBJETIVO DE ESTA FASE
+
+Transformar el sistema de:
+
+“MVP técnico funcional”
+
+A:
+
+“Plataforma marketplace enterprise lista para operar con miles de usuarios”
+
+🧩 MÓDULOS QUE DEBEN SER LLEVADOS A FULL
+1️⃣ MÓDULO WHATSAPP + IA (FULL)
+
+Actualmente: Recibe mensajes y guarda draft.
+
+Debe convertirse en:
+
+✔ Conversación con memoria por sesión
+
+Guardar contexto en Redis
+
+Soportar múltiples pasos
+
+Manejar interrupciones
+
+Reanudar conversación
+
+✔ Validación real
+
+Validar dirección
+
+Validar fecha
+
+Validar que categoría exista
+
+Sanitizar inputs
+
+✔ Function Calling real
+
+Definir schema estricto
+
+Validar respuesta IA antes de persistir
+
+Reintentar si IA responde inválido
+
+✔ Confirmación final obligatoria
+
+Resumen estructurado
+
+Confirmación explícita
+
+Solo entonces estado = publicada
+
+✔ Manejo de errores
+
+Timeout IA
+
+Reintentos
+
+Fallback message
+
+2️⃣ MÓDULO OFERTAS (FULL)
+
+Debe incluir:
+
+Máquina de estados estricta
+
+Transiciones validadas
+
+Transiciones atómicas con transacciones
+
+Auditoría de cada cambio
+
+Protección contra doble publicación
+
+Implementar:
+
+transitionOfferState(currentState, event)
+
+Con tabla de reglas explícitas.
+
+3️⃣ MÓDULO PRESUPUESTOS + RANKING (FULL)
+
+Actualmente: Selecciona Top 3 básico.
+
+Debe tener:
+
+✔ Normalización real matemática
+
+Z-score o MinMax scaling
+
+Evitar distorsión por outliers
+
+✔ Penalización
+
+Cancelaciones previas
+
+Mal rating
+
+Demoras
+
+✔ Protección anti-manipulación
+
+No permitir worker enviar múltiples quotes
+
+No permitir editar precio después de ranking
+
+✔ Redis cache real
+
+Invalidate on new quote
+
+TTL inteligente
+
+✔ Logs de scoring detallados
+4️⃣ MÓDULO PAGOS (FULL FINTECH MODE)
+
+Debe incluir:
+
+✔ Idempotencia
+
+Tabla idempotency_keys
+
+Verificación duplicados
+
+✔ Validación webhook segura
+
+Validar firma
+
+Validar IP si aplica
+
+Reconsulta al provider
+
+✔ Estados intermedios
+
+pending
+
+authorized
+
+paid
+
+failed
+
+refunded
+
+✔ Manejo de reintentos
+
+Reintento automático si webhook falla
+
+✔ Protección contra:
+
+Replay attacks
+
+Manipulación de monto
+
+✔ Conciliación
+
+Endpoint manual de reconciliación
+
+5️⃣ LIBERACIÓN DE CONTACTO (FULL SECURE)
+
+Debe:
+
+Liberar contacto solo si payment.paid confirmado
+
+Generar evento auditado
+
+Registrar timestamp de desbloqueo
+
+Permitir revocación si refund
+
+6️⃣ SISTEMA DE RATING (FULL)
+
+Debe incluir:
+
+Solo permitir rating si offer.cerrado
+
+Un rating por parte
+
+Promedio ponderado
+
+Recalcular score trabajador en tiempo real
+
+Anti-spam
+
+7️⃣ SEGURIDAD (FULL HARDENING)
+
+Implementar:
+
+Helmet
+
+Rate limit
+
+CSRF
+
+Input validation global
+
+DTO strict
+
+Sanitización HTML
+
+Logs sin datos sensibles
+
+Protección brute force
+
+8️⃣ OBSERVABILIDAD
+
+Implementar:
+
+Winston logger estructurado
+
+Correlation ID
+
+OpenTelemetry
+
+Métricas:
+
+conversion rate
+
+tiempo promedio pago
+
+ratio aceptación
+
+9️⃣ EVENT-DRIVEN REAL
+
+Implementar eventos:
+
+offer.published
+
+quote.created
+
+top3.generated
+
+payment.paid
+
+contact.released
+
+offer.closed
+
+Cada evento:
+
+Persistido
+
+Con retry
+
+Con dead letter
+
+🔟 TESTING ENTERPRISE
+
+Debe incluir:
+
+Unit tests:
+
+State machine
+
+Ranking
+
+Payment handler
+
+Integration tests:
+
+Webhook payment
+
+Flujo completo
+
+E2E test:
+
+Simular flujo completo
+
+🔥 REGLA PRINCIPAL
+
+No avanzar al siguiente módulo hasta que el actual esté:
+
+Implementado
+
+Testeado
+
+Documentado
+
+Validado contra edge cases
+
+🎯 ENTREGABLE FINAL DE ESTA FASE
+
+Código completo production-ready
+
+Sin placeholders
+
+Sin comentarios TODO
+
+Con tests pasando
+
+Con documentación actualizada
+
+Con docker-compose funcional
+
+Con diagrama actualizado
+
+🧠 MENSAJE FINAL PARA ANTIGRAVITY
+
+La infraestructura básica ya está lista.
+Ahora estamos en fase de industrialización.
+
+Elevar cada módulo a nivel:
+
+“Plataforma estilo Uber / Airbnb lista para escalar”.
+
+No generar estructuras básicas.
+Implementar lógica real.
+Optimizar.
+Blindar seguridad.
+Agregar tests.
+Agregar validaciones profundas.

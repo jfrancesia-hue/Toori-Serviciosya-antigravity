@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soporte - Toori ServiciosYa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde: #00bfa6;
+      --naranja: #ff7300;
+      --blanco: #ffffff;
+      --gris: #f2f2f2;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gris);
+      color: #333;
+    }
+
+    header {
+      background-color: var(--verde);
+      color: var(--blanco);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: #e0f7f4;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: var(--blanco);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .intro {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .intro p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--gris);
+    }
+
+    .faq-question {
+      background: none;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .faq-question:hover {
+      color: var(--naranja);
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 1rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .faq-question.open::after {
+      content: '-';
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1rem;
+      background: var(--gris);
+    }
+
+    .faq-answer.open {
+      max-height: 300px;
+      padding: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 3rem;
+      padding: 2rem 1rem;
+    }
+
+    a {
+      color: var(--verde);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--naranja);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Soporte y Ayuda</h1>
+  <p>
+    Para dudas también podés escribirnos a 
+    <a href="mailto:serviciosya.desarrollador@gmail.com" style="color: #ffffff; text-decoration: underline;">
+      serviciosya.desarrollador@gmail.com
+    </a> 
+    o enviarnos un mensaje por 
+    <a href="https://www.instagram.com/serviciosyaoficial/" target="_blank" style="color: #ffffff; text-decoration: underline;">
+      Instagram
+    </a>.
+  </p>
+</header>
+
+<main>
+  <section class="intro">
+    <p>¿Tenés dudas sobre el uso de Toori ServiciosYa? Acá podés encontrar respuestas rápidas o contactarnos.</p>
+  </section>
+
+  <section class="faq">
+    <div class="faq-item">
+      <div class="faq-question">¿Cómo me registro en la app?</div>
+      <div class="faq-answer">
+        Ingresá a la app, seleccioná tu rol (buscar o ofrecer servicios) y completá los datos personales.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Olvidé mi contraseña, ¿cómo la recupero?</div>
+      <div class="faq-answer">
+        Desde la pantalla de inicio de sesión, hacé clic en “¿Olvidaste tu contraseña?” y seguí los pasos para restablecerla.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">¿Cómo contacto al soporte técnico?</div>
+      <div class="faq-answer">
+        Podés escribirnos a <a href="mailto:soporte@serviciosya.info">soporte@serviciosya.info</a> o llamarnos al +54 9 1111-223344.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">¿Puedo cambiar mi rol luego de registrarme?</div>
+      <div class="faq-answer">
+        Sí, podés modificar tu rol desde la sección de perfil en la app en cualquier momento.
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Toori ServiciosYa · <a href="/">Volver al inicio</a></p>
+</footer>
+
+<script>
+  const questions = document.querySelectorAll('.faq-question');
+  questions.forEach(q => {
+    q.addEventListener('click', () => {
+      const answer = q.nextElementSibling;
+      q.classList.toggle('open');
+      answer.classList.toggle('open');
+    });
+  });
+</script>
+
+</body>
+</html>

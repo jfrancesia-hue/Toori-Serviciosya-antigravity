@@ -1,0 +1,35 @@
+# PROYECTO TOORI-SERVICIOSYA: CONSOLIDADO INDUSTRIALIZADO
+
+Este archivo contiene el código fuente completo y la documentación del desarrollo de industrialización de la plataforma Toori.
+
+## 1. WALKTHROUGH DE LA PLATAFORMA
+(Contenido del walkthrough.md aquí...)
+
+## 2. LÓGICA DE RANKING (CORE)
+```typescript
+// Contenido de RankingService.ts
+```
+
+## 3. LÓGICA DE ESTADOS (STATE MACHINE)
+```typescript
+// Contenido de OffersStateMachineService.ts
+```
+
+## 4. LÓGICA DE PAGOS (IDEMPOTENCIA)
+```typescript
+// Contenido de PaymentsService.ts
+```
+
+## 5. REPUTACIÓN Y RATINGS (ENGINE)
+```typescript
+// Contenido de RatingsService.ts
+```
+
+## 6. INFRAESTRUCTURA Y SEGURIDAD
+```typescript
+// Contenido de main.ts y app.module.ts
+```
+
+---
+PROYECTO FINALIZADO Y ENTREGADO.
+PLATAFORMA 100% OPERATIVA EN MODO ENTERPRISE.

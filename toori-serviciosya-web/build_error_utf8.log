@@ -1,0 +1,210 @@
+﻿
+> toori-serviciosya-web@1.0.0 build
+> vite build
+
+[36mvite v6.4.1 [32mbuilding for production...[36m[39m
+npm : <script src="ass
+ets/vendor/bootstrap/j
+s/bootstrap.bundle.min
+.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+En línea: 1 Carácter: 
+1
++ npm run build > 
+build_error.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (<script sr   
+ c="as...dule" att    
+ribute:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+<script src="assets/ve
+ndor/php-email-form/va
+lidate.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+<script src="assets/ve
+ndor/aos/aos.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+<script src="assets/ve
+ndor/glightbox/js/glig
+htbox.min.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+<script src="assets/ve
+ndor/purecounter/purec
+ounter_vanilla.js"> 
+in "/index.html" 
+can't be bundled 
+without type="module" 
+attribute
+<script src="assets/ve
+ndor/swiper/swiper-bun
+dle.min.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+<script src="assets/js
+/main.js"> in 
+"/index.html" can't 
+be bundled without 
+type="module" 
+attribute
+[32mÔ£ô[39m 0 modules transformed.
+[31mÔ£ù[39m Build 
+failed in 174ms
+[31merror during 
+build:
+[31m[vite:build-html]
+ Unable to parse 
+HTML; parse5 error 
+code disallowed-conten
+t-in-noscript-in-head
+ at C:/Users/agust/Des
+ktop/Nativos/softw/too
+riservya/Toori-Servici
+osya-antigravity-main/
+toori-serviciosya-web/
+contratar.html:29:5
+27 |    </script>
+28 |    <noscript>
+29 |      <img 
+height="1" width="1" 
+style="display:none"
+   |      ^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+30 |        src="https
+://www.facebook.com/tr
+?id=907768428637539&ev
+=PageView&noscript=1"
+   |  ^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
+31 |      />
+   |  ^^^^^^[31m
+file: [36mC:/Users/ag
+ust/Desktop/Nativos/so
+ftw/tooriservya/Toori-
+Serviciosya-antigravit
+y-main/toori-servicios
+ya-web/contratar.html
+[31m
+    at 
+handleParseError (file
+:///C:/Users/agust/Des
+ktop/Nativos/softw/too
+riservya/Toori-Servici
+osya-antigravity-main/
+toori-serviciosya-web/
+node_modules/vite/dist
+/node/chunks/dep-D4NMH
+UTW.js:36202:9)
+    at 
+Parser.onParseError (f
+ile:///C:/Users/agust/
+Desktop/Nativos/softw/
+tooriservya/Toori-Serv
+iciosya-antigravity-ma
+in/toori-serviciosya-w
+eb/node_modules/vite/d
+ist/node/chunks/dep-D4
+NMHUTW.js:36115:7)
+    at Parser._err (fi
+le:///C:/Users/agust/D
+esktop/Nativos/softw/t
+ooriservya/Toori-Servi
+ciosya-antigravity-mai
+n/toori-serviciosya-we
+b/node_modules/vite/di
+st/node/chunks/dep-Cvf
+TChi5.js:5133:14)
+    at 
+tokenInHeadNoScript (f
+ile:///C:/Users/agust/
+Desktop/Nativos/softw/
+tooriservya/Toori-Serv
+iciosya-antigravity-ma
+in/toori-serviciosya-w
+eb/node_modules/vite/d
+ist/node/chunks/dep-Cv
+fTChi5.js:6510:7)
+    at startTagInHeadN
+oScript (file:///C:/Us
+ers/agust/Desktop/Nati
+vos/softw/tooriservya/
+Toori-Serviciosya-anti
+gravity-main/toori-ser
+viciosya-web/node_modu
+les/vite/dist/node/chu
+nks/dep-CvfTChi5.js:64
+88:13)
+    at Parser._startTa
+gOutsideForeignContent
+ (file:///C:/Users/agu
+st/Desktop/Nativos/sof
+tw/tooriservya/Toori-S
+erviciosya-antigravity
+-main/toori-serviciosy
+a-web/node_modules/vit
+e/dist/node/chunks/dep
+-CvfTChi5.js:5840:17)
+    at Parser._process
+StartTag (file:///C:/U
+sers/agust/Desktop/Nat
+ivos/softw/tooriservya
+/Toori-Serviciosya-ant
+igravity-main/toori-se
+rviciosya-web/node_mod
+ules/vite/dist/node/ch
+unks/dep-CvfTChi5.js:5
+817:18)
+    at 
+Parser.onStartTag (fil
+e:///C:/Users/agust/De
+sktop/Nativos/softw/to
+oriservya/Toori-Servic
+iosya-antigravity-main
+/toori-serviciosya-web
+/node_modules/vite/dis
+t/node/chunks/dep-CvfT
+Chi5.js:5796:14)
+    at Tokenizer.emitC
+urrentTagToken (file:/
+//C:/Users/agust/Deskt
+op/Nativos/softw/toori
+servya/Toori-Servicios
+ya-antigravity-main/to
+ori-serviciosya-web/no
+de_modules/vite/dist/n
+ode/chunks/dep-CvfTChi
+5.js:1697:26)
+    at Tokenizer._stat
+eSelfClosingStartTag (
+file:///C:/Users/agust
+/Desktop/Nativos/softw
+/tooriservya/Toori-Ser
+viciosya-antigravity-m
+ain/toori-serviciosya-
+web/node_modules/vite/
+dist/node/chunks/dep-C
+vfTChi5.js:3048:22)[3
+9m
