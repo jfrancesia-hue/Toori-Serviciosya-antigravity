@@ -16,10 +16,13 @@
   --text-main: #2d2e3e;
   --text-muted: #6c757d;
 
+  /* UI Gradients */
+  --toori-gradient: linear-gradient(135deg, var(--toori-blue) 0%, #178abf 100%);
+
   /* Design Tokens */
   --radius-lg: 24px;
   --radius-md: 16px;
-  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  --shadow-premium: 0 20px 25px -5px rgba(59, 168, 224, 0.15), 0 10px 10px -5px rgba(59, 168, 224, 0.05);
   --font-title: 'Paytone One', sans-serif;
   --font-body: 'Lexend Deca', sans-serif;
 }
@@ -141,9 +144,9 @@ ul {
 }
 
 .btn-primary {
-  background-color: var(--toori-green);
+  background-color: var(--toori-blue);
   color: white;
-  box-shadow: 0 4px 14px rgba(174, 205, 90, 0.4);
+  box-shadow: 0 4px 14px rgba(59, 168, 224, 0.4);
 }
 
 .btn-primary:hover {
@@ -248,6 +251,36 @@ ul {
 }
 
 /* Utilities */
+.text-gradient {
+  background: var(--toori-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.floating-wa {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25D366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.floating-wa:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+  color: white;
+}
+
 .text-center {
   text-align: center;
 }

@@ -38,7 +38,9 @@
                     <!-- Photo Upload -->
                     <div class="text-center mb-4">
                         <div style="position: relative; display: inline-block;">
-                            <img id="foto-preview" src="https://via.placeholder.com/150" alt="Avatar"
+                            <img id="foto-preview"
+                                src="https://ui-avatars.com/api/?name=Foto+Perfil&background=e2e8f0&color=64748b&size=150"
+                                alt="Avatar"
                                 style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: var(--shadow-premium);">
                             <label for="foto-input"
                                 style="position: absolute; bottom: 5px; right: 5px; background: var(--toori-blue); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid white;">
@@ -62,12 +64,26 @@
 
                     <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
+                            <label for="reg-email">Correo Electrónico (Para tu cuenta)</label>
+                            <input type="email" id="reg-email" class="form-control" placeholder="juan@hotmail.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Contraseña</label>
+                            <input type="password" id="reg-password" class="form-control"
+                                placeholder="Mínimo 6 caracteres" required minlength="6">
+                        </div>
+                    </div>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
                             <label for="reg-edad">Edad</label>
                             <input type="number" id="reg-edad" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="reg-telefono">WhatsApp (con código de área)</label>
-                            <input type="tel" id="reg-telefono" class="form-control" placeholder="54911..." required>
+                            <label for="reg-telefono">WhatsApp (Sin 0 ni 15)</label>
+                            <input type="tel" id="reg-telefono" class="form-control" placeholder="Ej: 1123456789"
+                                required>
                         </div>
                     </div>
 
@@ -129,17 +145,20 @@
                     <div
                         style="background: rgba(var(--toori-blue-rgb), 0.05); padding: 15px; border-radius: 12px; margin-bottom: 24px; border: 1px dashed var(--toori-blue);">
                         <p
-                            style="margin: 0; font-size: 0.85rem; color: var(--toori-blue); font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                            <i class="bi bi-info-circle-fill"></i>
-                            Subir matrícula y antecedentes te convierte en trabajador verificado (✓) en tu perfil.
+                            style="margin: 0; font-size: 0.85rem; color: var(--toori-blue); font-weight: 600; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;">
+                            <i class="bi bi-info-circle-fill" style="margin-top: 2px;"></i>
+                            <span>Subir matrícula y antecedentes te convierte en trabajador verificado (✓) en tu
+                                perfil.</span>
                         </p>
                     </div>
 
-                    <div class="form-group" style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                    <div class="form-group"
+                        style="display: flex; align-items: flex-start; gap: 10px; margin-top: 10px;">
                         <input type="checkbox" id="reg-terminos"
-                            style="width: 22px; height: 22px; cursor: pointer; border-radius: 6px;" required>
-                        <label for="reg-terminos" style="margin-bottom: 0;">Acepto los <a
-                                href="/Terminos-y-condiciones.html"
+                            style="width: 20px; height: 20px; cursor: pointer; border-radius: 6px; margin-top: 3px;"
+                            required>
+                        <label for="reg-terminos" style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.4;">Acepto
+                            los <a href="/Terminos-y-condiciones.html"
                                 style="color: var(--toori-blue); font-weight: 600;">Términos y Condiciones</a></label>
                     </div>
 

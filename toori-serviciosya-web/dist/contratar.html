@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,17 +16,21 @@
     const META_PIXEL_ID = "907768428637539";
   </script>
   <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
       'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', META_PIXEL_ID);
     fbq('track', 'PageView');
   </script>
-  
+
 
   <style>
     :root {
@@ -46,17 +51,30 @@
       text-align: center;
     }
 
-    .container { padding: 20px; max-width: 520px; width: 100%; }
-    .logo { width: 100px; margin-bottom: 20px; }
-    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; }
+    .container {
+      padding: 20px;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
 
     .search-card {
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(8px);
       padding: 25px;
       border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
     .input-group {
@@ -68,27 +86,42 @@
       margin-bottom: 12px;
     }
 
-    .input-group i { color: var(--verde-bg); margin-right: 10px; }
+    .input-group i {
+      color: var(--verde-bg);
+      margin-right: 10px;
+    }
 
     input {
-      border: none; outline: none; width: 100%;
-      font-size: 1rem; color: #333;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 1rem;
+      color: #333;
     }
 
     .gps-btn {
-      background: none; border: none;
-      color: var(--verde-bg); font-weight: bold;
-      cursor: pointer; display: flex; align-items: center; gap: 5px;
+      background: none;
+      border: none;
+      color: var(--verde-bg);
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
       white-space: nowrap;
     }
 
     .btn {
-      color: white; border: none;
-      padding: 16px; border-radius: 50px;
-      font-size: 1.05rem; font-weight: 800;
-      cursor: pointer; width: 100%;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 50px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
       text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
       transition: 0.2s;
       display: inline-flex;
       align-items: center;
@@ -96,34 +129,54 @@
       gap: 10px;
     }
 
-    .btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
-    .btn:hover { transform: scale(1.01); }
+    .btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
 
-    .btn-main { background-color: var(--naranja-btn); }
-    .btn-main:hover { background-color: #f08c35; }
+    .btn:hover {
+      transform: scale(1.01);
+    }
+
+    .btn-main {
+      background-color: var(--naranja-btn);
+    }
+
+    .btn-main:hover {
+      background-color: #f08c35;
+    }
 
     .btn-wa {
       background-color: var(--wa-btn);
       margin-top: 10px;
     }
-    .btn-wa:hover { filter: brightness(0.95); }
+
+    .btn-wa:hover {
+      filter: brightness(0.95);
+    }
 
     .microcopy {
       margin-top: 10px;
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.95);
+      color: rgba(255, 255, 255, 0.95);
       font-weight: 600;
     }
 
     .promesa {
       margin-top: 12px;
       font-size: 0.9rem;
-      color: rgba(255,255,255,0.92);
+      color: rgba(255, 255, 255, 0.92);
       font-style: italic;
       line-height: 1.35;
     }
 
-    #status { margin-top: 15px; font-size: 14px; font-weight: 700; min-height: 20px; }
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 700;
+      min-height: 20px;
+    }
 
     .divider {
       margin: 14px 0 8px;
@@ -138,11 +191,11 @@
       text-align: left;
       margin-top: -6px;
       margin-bottom: 12px;
-      background: rgba(255,255,255,0.98);
+      background: rgba(255, 255, 255, 0.98);
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.06);
     }
 
     .loc-item {
@@ -154,7 +207,7 @@
     }
 
     .loc-item:hover {
-      background: rgba(0,0,0,0.06);
+      background: rgba(0, 0, 0, 0.06);
     }
   </style>
 </head>
@@ -169,12 +222,7 @@
     <div class="search-card">
       <div class="input-group">
         <i class="fas fa-search"></i>
-        <input
-          type="text"
-          id="srv"
-          list="categorias_list"
-          placeholder="¿Qué necesitás? (ej: Plomero, Electricista)"
-        >
+        <input type="text" id="srv" list="categorias_list" placeholder="¿Qué necesitás? (ej: Plomero, Electricista)">
       </div>
 
       <div class="input-group">
@@ -215,7 +263,7 @@
     // =========================
     // CONFIGURACIÓN
     // =========================
-    const WHATSAPP_PHONE_E164 = "5493834035427";
+    const WHATSAPP_PHONE_E164 = "5493512139046";
 
     const ANDROID_BASE = "https://play.google.com/store/apps/details?id=com.alex_6775.appTrabajo";
     const IOS_BASE = "https://apps.apple.com/ar/app/servicios-ya/id6747944823";
@@ -237,31 +285,31 @@
     // CATEGORÍAS (autocomplete)
     // =========================
     const categoriasDisponibles = [
-      "Mi Primer Trabajo","general","Servicio","Electricista","Plomero","Pintor","Carpintero","Cerrajero","Mecánico",
-      "Jardinero","Mudanzas","Profesor particular","Disenador gráfico","Programador","Contador","Fotógrafo","Veterinario",
-      "Asistente virtual","Estilista","Tatuador","Marketing","Traductor","Cuidado de niños","Cuidado de ancianos",
-      "Entrenador personal","Técnico de PC","Desarrollador web","Servicio de limpieza","Chofer privado","Decorador de interiores",
-      "Chef personal","Organizador de eventos","Masajista","Fletes","Albañil","Reparaciones en el hogar","Community Manager",
-      "Editor de video","Paseador de perros","Atención al cliente","Reparación de celulares","Profesor de música",
-      "Gomeria","Mecanico","Electromecanico","Soldador","Gasista","Herrero","Asistente contable","Psicólogo","Kinesiólogo",
-      "Nutricionista","Enfermero","Disenador UX/UI","Ilustrador","Guionista","Camarógrafo","Gestor de redes","Tester QA",
-      "Coach de vida","Terapista ocupacional","Maquillador profesional","Manicurista","Técnico en refrigeración","Montador de muebles",
-      "Bartender","Mozos para eventos","Dj para eventos","Instalador de cámaras","Animador infantil","Profesor de yoga",
-      "Instructor de manejo","Lavado de autos","guarderia de mascotas","Personal de seguridad","Coach financiero","Redactor de contenidos",
-      "Consultor de negocios","Instalador de paneles solares","Reparador de electrodomésticos","Tapicero","Modista","Sastre",
-      "Montador de estructuras","Disenador industrial","Fotógrafo de producto","Traductor jurado","Desarrollador de apps",
-      "Gestor de ecommerce","Abogado","Artesano","Consultor ambiental","Encargado de depósito","Camarero","Panadero","Pastelero",
-      "Delivery","Personal de limpieza de oficinas","Ingeniero","Médico","Arquitecto","Odontólogo","Salón de fiestas infantiles",
-      "Salón de fiestas","Decoraciones para eventos","Instalador de aire acondicionado","Gestor de trámites","Peluquería de mascotas",
-      "Cocinero","Ayudante de cocina","Empleada doméstica","Limpieza comercial","chef ","Cursos","alquiler de Quinchos o locales",
+      "Mi Primer Trabajo", "general", "Servicio", "Electricista", "Plomero", "Pintor", "Carpintero", "Cerrajero", "Mecánico",
+      "Jardinero", "Mudanzas", "Profesor particular", "Disenador gráfico", "Programador", "Contador", "Fotógrafo", "Veterinario",
+      "Asistente virtual", "Estilista", "Tatuador", "Marketing", "Traductor", "Cuidado de niños", "Cuidado de ancianos",
+      "Entrenador personal", "Técnico de PC", "Desarrollador web", "Servicio de limpieza", "Chofer privado", "Decorador de interiores",
+      "Chef personal", "Organizador de eventos", "Masajista", "Fletes", "Albañil", "Reparaciones en el hogar", "Community Manager",
+      "Editor de video", "Paseador de perros", "Atención al cliente", "Reparación de celulares", "Profesor de música",
+      "Gomeria", "Mecanico", "Electromecanico", "Soldador", "Gasista", "Herrero", "Asistente contable", "Psicólogo", "Kinesiólogo",
+      "Nutricionista", "Enfermero", "Disenador UX/UI", "Ilustrador", "Guionista", "Camarógrafo", "Gestor de redes", "Tester QA",
+      "Coach de vida", "Terapista ocupacional", "Maquillador profesional", "Manicurista", "Técnico en refrigeración", "Montador de muebles",
+      "Bartender", "Mozos para eventos", "Dj para eventos", "Instalador de cámaras", "Animador infantil", "Profesor de yoga",
+      "Instructor de manejo", "Lavado de autos", "guarderia de mascotas", "Personal de seguridad", "Coach financiero", "Redactor de contenidos",
+      "Consultor de negocios", "Instalador de paneles solares", "Reparador de electrodomésticos", "Tapicero", "Modista", "Sastre",
+      "Montador de estructuras", "Disenador industrial", "Fotógrafo de producto", "Traductor jurado", "Desarrollador de apps",
+      "Gestor de ecommerce", "Abogado", "Artesano", "Consultor ambiental", "Encargado de depósito", "Camarero", "Panadero", "Pastelero",
+      "Delivery", "Personal de limpieza de oficinas", "Ingeniero", "Médico", "Arquitecto", "Odontólogo", "Salón de fiestas infantiles",
+      "Salón de fiestas", "Decoraciones para eventos", "Instalador de aire acondicionado", "Gestor de trámites", "Peluquería de mascotas",
+      "Cocinero", "Ayudante de cocina", "Empleada doméstica", "Limpieza comercial", "chef ", "Cursos", "alquiler de Quinchos o locales",
       "publicidad de Radios o medios"
     ];
 
     const categoriasNormalizadas = [...new Set(
       categoriasDisponibles.map(c =>
         c.trim()
-         .toLowerCase()
-         .replace(/\b\w/g, l => l.toUpperCase())
+          .toLowerCase()
+          .replace(/\b\w/g, l => l.toUpperCase())
       )
     )].sort();
 
@@ -307,7 +355,7 @@
 
     async function fetchArgentinaPlaces(query) {
       const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=ar&limit=6&addressdetails=1&q=${encodeURIComponent(query)}`;
-      const res = await fetch(url, { headers: { "Accept": "application/json" }});
+      const res = await fetch(url, { headers: { "Accept": "application/json" } });
       return await res.json();
     }
 
@@ -374,13 +422,13 @@
       try {
         const payload = { srv, loc, ts: new Date().toISOString(), ...UTM };
         localStorage.setItem("sy_intent", JSON.stringify(payload));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function safeFbqTrack(eventName, params) {
       try {
         if (typeof fbq === "function") fbq('track', eventName, params || {});
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function buildAndroidLink(params) {
@@ -480,4 +528,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -165,63 +165,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 docMatriculaUrl = await uploadFile('verificaciones', '', selectedMatricula, dni, 'matricula_');
             }
 
-            const verificado = !!(docAntecedentesUrl && docMatriculaUrl);
             const lat = parseFloat(latInput.value);
             const lon = parseFloat(lonInput.value);
 
-            // Fetch User ID (simulation or from auth)
-            // If we don't have Auth, we create/upsert by DNI.
-            // But usually we need the user UUID. We check if user exists.
+            // Fetch User Auth
+            const email = (document.getElementById('reg-email') as HTMLInputElement).value.trim();
+            const password = (document.getElementById('reg-password') as HTMLInputElement).value;
+
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+                email,
+                password
+            });
+
+            if (authError) throw authError;
+
+            const userId = authData?.user?.id;
+            if (!userId) throw new Error("No se pudo obtener el ID de registro. Verifica los permisos de Supabase Auth.");
+
+            let telefonoCrudo = (document.getElementById('reg-telefono') as HTMLInputElement).value.trim().replace(/\D/g, '');
+            // Formatear a estándar WhatsApp Argentina (549 + área + número sin 15)
+            // Asumimos que la gente puso el número puro ej 1123456789 (10 dígitos en Arg)
+            if (!telefonoCrudo.startsWith('54') && !telefonoCrudo.startsWith('549')) {
+                // Si alguien puso el 0 inicial del área, se lo sacamos
+                if (telefonoCrudo.startsWith('0')) telefonoCrudo = telefonoCrudo.substring(1);
+                telefonoCrudo = '549' + telefonoCrudo;
+            }
 
             const userData = {
+                id: userId,
+                rol: 'prestador',
                 dni,
-                nombre,
-                apellido,
-                telefono: (document.getElementById('reg-telefono') as HTMLInputElement).value.trim(),
+                nombre: nombreCompleto, // Saving full name to match other components
+                telefono: telefonoCrudo,
+                oficios: [profession], // Keeping it as JSON array for future-proofing
+                zona_frecuente: cityInput.value,
+                // Additional specific fields:
                 edad: parseInt((document.getElementById('reg-edad') as HTMLInputElement).value),
                 antiguedad: parseFloat((document.getElementById('reg-antiguedad') as HTMLInputElement).value),
                 antecedentes: (document.getElementById('reg-antecedentes') as HTMLTextAreaElement).value,
-                ciudad: cityInput.value,
                 latitud: lat,
                 longitud: lon,
                 foto_url: fotoUrl,
                 antecedentes_url: docAntecedentesUrl,
                 matricula_url: docMatriculaUrl,
-                matricula: !!docMatriculaUrl,
-                verificado: verificado
+                verificado: false // REQUERIMIENTO: La verificación ahora es un proceso de auditoría manual del Admin.
             };
 
-            // 1. Upsert Usuarios (by DNI if it's the unique constraint)
-            const { data: userRecord, error: userError } = await supabase
-                .from('usuarios')
-                .upsert(userData, { onConflict: 'dni' })
-                .select()
-                .single();
+            // 1. Upsert into isolated specific sy_perfiles table
+            const { error: profileError } = await supabase
+                .from('sy_perfiles')
+                .upsert(userData)
+                .select();
 
-            if (userError) throw userError;
-
-            // 2. Upsert Workers
-            const { error: workerError } = await supabase
-                .from('workers')
-                .upsert({
-                    user_id: userRecord.id, // Assuming id is the UUID
-                    status: 'ONLINE',
-                    last_seen_at: new Date().toISOString()
-                }, { onConflict: 'user_id' });
-
-            // Note: Geography point usually requires a raw SQL rpc if not handled by PostGIS directly in JS.
-            // But we'll assume the trigger or standard upsert on location geography works if columns exist.
-            // If it's a geography column 'location', we might need an RPC call.
-
-            if (workerError) {
-                console.warn("Worker table upsert failed (non-critical if not exists yet):", workerError);
-            }
+            if (profileError) throw profileError;
 
             alertBox.className = 'alert alert-success mt-3';
             alertBox.innerHTML = '¡Tu postulación ha sido enviada con éxito! Revisaremos tu perfil pronto.';
             alertBox.style.display = 'block';
             form.reset();
-            fotoPreview.src = 'https://via.placeholder.com/150';
+            fotoPreview.src = 'https://ui-avatars.com/api/?name=Foto+Perfil&background=e2e8f0&color=64748b&size=150';
 
         } catch (err: any) {
             console.error("Critical error in registration:", err);

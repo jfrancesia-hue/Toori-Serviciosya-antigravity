@@ -13,7 +13,10 @@ export default defineConfig({
                 politicas: resolve(__dirname, 'politicas-de-privacidad.html'),
                 ofertas: resolve(__dirname, 'ofertas.html'),
                 oferta: resolve(__dirname, 'oferta.html'),
-                registro: resolve(__dirname, 'registro.html')
+                registro: resolve(__dirname, 'registro.html'),
+                login: resolve(__dirname, 'login.html'),
+                admin: resolve(__dirname, 'admin/index.html'),
+                trabajador: resolve(__dirname, 'trabajador/index.html')
             }
         }
     }
