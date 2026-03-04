@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = '/admin/index.html';
             } else if (perfil?.rol === 'prestador') {
                 window.location.href = '/trabajador/index.html';
+            } else if (perfil?.rol === 'cliente') {
+                window.location.href = '/cliente/index.html';
             } else {
                 window.location.href = '/';
             }

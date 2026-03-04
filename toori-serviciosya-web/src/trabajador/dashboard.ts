@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         .single();
 
     if (roleError || (perfil?.rol !== 'prestador' && perfil?.rol !== 'admin')) {
-        alert("Acceso denegado: Este panel es exclusivo para Trabajadores de Toori ServiciosYa.");
-        window.location.href = '/';
+        alert("Configuración incompleta: Por favor completa tu perfil primero para acceder al panel de trabajador.");
+        window.location.href = '/perfil.html';
         return;
     }
 
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     id, categoria, zona, descripcion, estado, created_at,
                     sy_perfiles!cliente_id(nombre, telefono)
                 `)
-                .eq('prestador_id', session.user.id)
+                .eq('prestador_id', session!.user.id)
                 .in('estado', ['en_proceso']) // Only show active assigned tasks
                 .order('created_at', { ascending: false });
 
@@ -150,6 +150,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                             alert('Error al actualizar el registro en la base de datos.');
                             button.disabled = false;
                         } else {
+                            // Fetch client data for WhatsApp request
+                            const pedido = pedidos.find(p => p.id === id);
+                            const clienteProfile = Array.isArray(pedido?.sy_perfiles) ? pedido.sy_perfiles[0] : pedido?.sy_perfiles;
+
+                            if (clienteProfile?.telefono) {
+                                const msg = `Hola ${clienteProfile.nombre}, ¡ya terminé el servicio de ${pedido?.categoria}! ✅ \n\n¿Podrías calificar mi trabajo ingresando a tu panel de Toori? \n👉 ${window.location.origin}/cliente/index.html \n\n¡Gracias!`;
+                                const waUrl = `https://wa.me/${clienteProfile.telefono.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`;
+
+                                if (confirm('Trabajo finalizado. ¿Querés enviarle un mensaje al cliente para que te califique por WhatsApp?')) {
+                                    window.open(waUrl, '_blank');
+                                }
+                            }
+
                             fetchJobs(); // reload list
                         }
                     }

@@ -4,91 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Cliente | Toori ServiciosYa</title>
+    <title>Registro de Cliente - Toori ServiciosYa</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/src/styles/main.css">
     <style>
         body {
             background-color: #f8fafc;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .auth-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
         }
 
         .auth-card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
             width: 100%;
             max-width: 500px;
-        }
-
-        .auth-header {
-            background: var(--toori-blue);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .auth-logo {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .auth-body {
-            padding: 40px 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            font-weight: 500;
-            color: var(--toori-dark);
-            margin-bottom: 8px;
+            margin: 0 auto;
         }
 
         .form-control {
+            padding: 12px 20px;
             border-radius: 12px;
-            padding: 12px 15px;
             border: 1px solid #e2e8f0;
-            transition: all 0.3s;
+            background-color: #f8fafc;
         }
 
         .form-control:focus {
+            background-color: white;
             border-color: var(--toori-blue);
             box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1);
         }
 
         .btn-auth {
-            background: var(--toori-gradient);
-            color: white;
-            border: none;
-            border-radius: 12px;
             padding: 14px;
+            border-radius: 12px;
             font-weight: 600;
             width: 100%;
-            margin-top: 10px;
-            transition: transform 0.2s;
+            background: var(--toori-blue);
+            color: white;
+            border: none;
+            transition: all 0.2s;
         }
 
         .btn-auth:hover {
+            filter: brightness(1.1);
             transform: translateY(-2px);
         }
 
@@ -108,73 +76,66 @@
 
 <body>
 
-    <!-- Back to Web -->
-    <a href="/"
-        style="position: absolute; top: 20px; left: 20px; color: var(--toori-dark); text-decoration: none; font-weight: 500; background: white; padding: 8px 16px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-        <i class="bi bi-arrow-left me-2"></i> Volver
-    </a>
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <a href="/">
+                <img src="/assets/logo.png" alt="Toori Logo" style="height: 180px;">
+            </a>
+        </div>
 
-    <div class="auth-container">
         <div class="auth-card">
-            <div class="auth-header">
-                <div class="auth-logo">
-                    <i class="bi bi-person-heart"></i> Toori Clientes
+            <div class="text-center mb-4">
+                <h4 class="fw-bold" style="color: var(--toori-dark);">Registrate como Cliente</h4>
+                <p class="text-muted small">Contratá servicios de emergencia de forma segura.</p>
+            </div>
+
+            <div id="reg-cliente-alert" class="alert d-none" role="alert"></div>
+
+            <form id="form-cliente">
+                <div class="grid">
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-bold small">Nombre</label>
+                        <input type="text" id="cli-nombre" class="form-control" placeholder="Ej: Roberto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-bold small">Apellido</label>
+                        <input type="text" id="cli-apellido" class="form-control" placeholder="Ej: Gómez" required>
+                    </div>
                 </div>
-                <h4 class="m-0 fw-bold">Creá tu cuenta</h4>
-                <p class="m-0 mt-2" style="opacity: 0.9; font-size: 0.95rem;">Llevá el control de tus pedidos de
-                    emergencia más rápido.</p>
-            </div>
-            <div class="auth-body">
-                <div id="reg-cliente-alert" class="alert d-none" role="alert"></div>
 
-                <form id="form-cliente">
-                    <div class="grid">
-                        <div class="form-group">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" id="cli-nombre" class="form-control" placeholder="Ej: Roberto" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Apellido</label>
-                            <input type="text" id="cli-apellido" class="form-control" placeholder="Ej: Gómez" required>
-                        </div>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label text-muted fw-bold small">WhatsApp (Sin 0 ni 15)</label>
+                    <input type="tel" id="cli-telefono" class="form-control" placeholder="Ej: 1123456789" required
+                        autocomplete="tel">
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">WhatsApp (Sin 0 ni 15)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-end-0">
-                                <i class="bi bi-whatsapp text-success"></i>
-                            </span>
-                            <input type="tel" id="cli-telefono" class="form-control border-start-0 ps-0"
-                                placeholder="Ej: 1123456789" required autocomplete="tel">
-                        </div>
-                        <small class="text-muted" style="font-size: 0.8rem;">Te contactaremos por acá con el
-                            presupuesto.</small>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label text-muted fw-bold small">Correo Electrónico</label>
+                    <input type="email" id="cli-email" class="form-control" placeholder="tu@correo.com" required>
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Correo Electrónico</label>
-                        <input type="email" id="cli-email" class="form-control" placeholder="tu@correo.com" required>
-                    </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted fw-bold small">Contraseña</label>
+                    <input type="password" id="cli-password" class="form-control" placeholder="Mínimo 6 caracteres"
+                        required minlength="6">
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" id="cli-password" class="form-control" placeholder="Mínimo 6 caracteres"
-                            required minlength="6">
-                    </div>
+                <button type="submit" id="btn-submit-cli" class="btn-auth">
+                    Crear Cuenta y Continuar
+                </button>
 
-                    <button type="submit" id="btn-submit-cli" class="btn-auth">
-                        Crear Cuenta y Continuar
-                    </button>
+                <div class="text-center mt-4">
+                    <p class="text-muted small mb-1">¿Ya tienes cuenta?</p>
+                    <a href="/login.html" class="text-decoration-none fw-bold" style="color: var(--toori-blue);">
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </form>
+        </div>
 
-                    <div class="text-center mt-4 pt-3 border-top">
-                        <p class="text-muted small m-0">¿Ya sos parte de Toori?</p>
-                        <a href="/login.html" class="text-decoration-none fw-bold" style="color: var(--toori-blue);">
-                            Iniciar Sesión
-                        </a>
-                    </div>
-                </form>
-            </div>
+        <div class="text-center mt-4">
+            <a href="/" class="text-decoration-none" style="color: var(--toori-purple); font-weight: 600;"><i
+                    class="bi bi-arrow-left"></i> Volver al inicio</a>
         </div>
     </div>
 

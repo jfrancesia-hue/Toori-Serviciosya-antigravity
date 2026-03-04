@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Toori ServiciosYa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <style>
+        .profile-hero {
+            position: relative;
+            min-height: 250px;
+            background-image: url('/assets/hero_house.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding-bottom: 60px;
+        }
+
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(75, 78, 109, 0.9) 0%, rgba(75, 78, 109, 0.6) 100%);
+        }
+
+        .profile-hero div {
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-container {
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-premium);
+            padding: 40px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .avatar-edit {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--toori-dark);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            border: 1px solid #e5e7eb;
+            background-color: #f9fafb;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: var(--font-body);
+        }
+
+        .form-control:focus {
+            background-color: white;
+            border-color: var(--toori-blue);
+            box-shadow: 0 0 0 4px rgba(59, 168, 224, 0.1);
+        }
+
+        .btn-save {
+            background-color: var(--toori-blue);
+            border: none;
+            border-radius: 50px;
+            padding: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            color: white;
+            font-family: var(--font-body);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            background-color: var(--toori-green-hover);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .worker-section {
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px dashed var(--toori-blue);
+        }
+
+        .role-card {
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn-check:checked+.role-card {
+            border-color: var(--toori-blue);
+            background-color: rgba(59, 168, 224, 0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2,
+        h6 {
+            color: var(--toori-dark);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <header class="navbar navbar--sticky">
+        <div class="container-header">
+            <a href="/" class="logo" style="margin-right: auto;">
+                <img src="/assets/logo.png" alt="Toori Logo">
+                <span>Toori ServiciosYa</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link">Inicio</a>
+                <a href="/#como-funciona" class="nav-link">¿Cómo funciona?</a>
+                <a href="/ofertas.html" class="nav-link">Ofertas</a>
+                <a href="/registro.html" class="nav-link">Soy Trabajador</a>
+                <a href="/login.html" class="nav-link" style="color: var(--toori-blue);">Ingresá</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="page-loader" class="text-center py-5" style="margin-top: 100px;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+        <p class="mt-3 fw-bold text-muted">Cargando tu perfil...</p>
+    </div>
+
+    <div id="profile-content" class="d-none">
+        <section class="profile-hero">
+            <div>
+                <h2 class="mb-2 text-white">Configuración de Perfil</h2>
+                <p class="text-white-50 opacity-75">Tu información personal segura en un solo lugar</p>
+            </div>
+        </section>
+
+        <section class="container profile-container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="profile-card">
+                        <form id="form-perfil">
+                            <div class="avatar-edit">
+                                <img id="profile-img" src="https://ui-avatars.com/api/?name=User" alt="Avatar"
+                                    class="avatar-img">
+                            </div>
+
+                            <div id="alert-msg" class="alert d-none mb-4 py-3 small fw-bold text-center"></div>
+
+                            <div class="row g-4">
+                                <!-- Role Selection (Only for New Users) -->
+                                <div id="role-selection" class="col-12 d-none">
+                                    <div class="mb-4">
+                                        <h6 class="fw-bold mb-3">¿Cómo vas a usar Toori?</h6>
+                                        <div class="d-flex gap-3">
+                                            <div class="flex-grow-1">
+                                                <input type="radio" class="btn-check" name="user-role" id="role-cliente"
+                                                    value="cliente" autocomplete="off">
+                                                <label class="role-card w-100" for="role-cliente">
+                                                    <i class="bi bi-person-heart d-block mb-2 h3 text-primary"></i>
+                                                    <span class="fw-bold">Soy Cliente</span>
+                                                    <small class="d-block text-muted">Busco servicios</small>
+                                                </label>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <input type="radio" class="btn-check" name="user-role"
+                                                    id="role-prestador" value="prestador" autocomplete="off">
+                                                <label class="role-card w-100" for="role-prestador">
+                                                    <i class="bi bi-tools d-block mb-2 h3 text-primary"></i>
+                                                    <span class="fw-bold">Soy Trabajador</span>
+                                                    <small class="d-block text-muted">Ofrezco servicios</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Nombre Completo</label>
+                                    <input type="text" id="input-nombre" class="form-control" placeholder="Tu nombre"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Teléfono / WhatsApp</label>
+                                    <input type="tel" id="input-telefono" class="form-control"
+                                        placeholder="Ej: 3511234567 (Sin el 0 ni el 15)">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email de seguridad</label>
+                                    <input type="email" id="input-email" class="form-control" disabled>
+                                </div>
+
+                                <!-- Worker specific fields -->
+                                <div id="worker-fields" class="col-12 d-none">
+                                    <div class="worker-section">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="fw-bold mb-0 d-flex align-items-center gap-2">
+                                                <i class="bi bi-briefcase-fill text-primary"></i>
+                                                Información de Trabajador
+                                            </h6>
+                                            <a id="btn-view-public" href="#" target="_blank"
+                                                class="btn btn-sm btn-outline-primary rounded-pill">
+                                                <i class="bi bi-eye-fill me-1"></i> Ver Perfil Público
+                                            </a>
+                                        </div>
+
+                                        <!-- Reputation Summary -->
+                                        <div id="reputation-summary"
+                                            class="p-3 bg-white rounded border mb-3 d-flex align-items-center justify-content-around text-center">
+                                            <div>
+                                                <div id="worker-stars" class="text-warning h4 mb-0">
+                                                    <i class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                        class="bi bi-star"></i><i class="bi bi-star"></i><i
+                                                        class="bi bi-star"></i>
+                                                </div>
+                                                <small class="text-muted">Puntuación</small>
+                                            </div>
+                                            <div class="vr"></div>
+                                            <div>
+                                                <h4 id="worker-reviews-count" class="mb-0 fw-bold">0</h4>
+                                                <small class="text-muted">Reseñas</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <label class="form-label">Mis Servicios</label>
+                                                <div id="worker-oficios" class="d-flex flex-wrap gap-2 mb-2">
+                                                    <!-- Oficios badges will go here -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label class="form-label">Ubicación / Ciudad</label>
+                                                <input type="text" id="input-ciudad" class="form-control"
+                                                    placeholder="Ej: Córdoba, Centro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-5">
+                                    <button type="submit" id="btn-save-profile"
+                                        class="btn btn-primary btn-save w-100 shadow-sm">
+                                        <i class="bi bi-check2-circle me-1"></i> Guardar Cambios
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="text-center mt-4 text-muted small">
+                        <p>© 2024 Toori ServiciosYa. Tus datos están protegidos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/src/utils/navbar.ts"></script>
+    <script type="module" src="/src/perfil.ts"></script>
+</body>
+
+</html>

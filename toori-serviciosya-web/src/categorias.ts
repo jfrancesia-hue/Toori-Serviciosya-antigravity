@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         else if (c.includes('refrigeración')) icon = 'bi-snow';
 
                         card.innerHTML = `
-                            <div style="font-size: 2.5rem; color: var(--toori-blue); margin-bottom: 1rem;"><i class="bi ${icon}"></i></div>
+                            <div style="font-size: 2.5rem; color: var(--toori-purple); margin-bottom: 1rem;"><i class="bi ${icon}"></i></div>
                             <h4>${cat.nombre}</h4>
                             <p class="text-muted mb-3" style="font-size: 0.85rem;">Servicio Gestionado</p>
                             <button class="btn btn-primary dynamic-whatsapp-btn" data-category="${cat.nombre}"
@@ -141,14 +141,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                         zonaFinal = `Ubicación actual: ${userLocationLink}`;
                     }
 
-                    // 1. Insert Order into sy_pedidos
+                    // 1. Get Auth Session
+                    const { data: { session } } = await supabase.auth.getSession();
+                    const clienteId = session?.user?.id || null;
+
+                    // 2. Insert Order into sy_pedidos
                     const { data: pedidoData, error: pedidoError } = await supabase
                         .from('sy_pedidos')
                         .insert([{
                             categoria: category,
                             zona: zonaFinal || 'No especificada',
                             descripcion: 'Pedido iniciado desde la página de Categorías.',
-                            estado: 'pendiente'
+                            estado: 'pendiente',
+                            cliente_id: clienteId
                         }])
                         .select('id')
                         .single();

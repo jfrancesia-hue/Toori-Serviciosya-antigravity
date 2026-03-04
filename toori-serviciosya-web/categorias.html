@@ -15,13 +15,14 @@
 
     <!-- Navbar -->
     <header class="navbar navbar--sticky">
-        <div class="container">
-            <a href="/" class="logo">
-                <img src="/img/logo-nativos.png" alt="Toori Logo">
+        <div class="container-header">
+            <a href="/" class="logo" style="margin-right: auto;">
+                <img src="/assets/logo.png" alt="Toori Logo">
                 <span>Toori ServiciosYa</span>
             </a>
             <nav class="nav-menu">
-                <a href="/" class="nav-link">Inicio</a>
+                <a href="/" class="nav-link"
+                    style="background: rgba(var(--toori-blue-rgb), 0.1); padding: 8px 20px; border-radius: 50px; color: var(--toori-blue);">Inicio</a>
                 <a href="/#como-funciona" class="nav-link">¿Cómo funciona?</a>
                 <a href="/ofertas.html" class="nav-link">Ofertas</a>
                 <a href="/registro.html" class="nav-link">Soy Trabajador</a>
@@ -58,8 +59,8 @@
             <div class="grid"
                 style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px;">
                 <div>
-                    <div class="logo mb-2" style="font-size: 1.2rem;">
-                        <img src="/img/logo-nativos.png" alt="Toori Logo">
+                    <div class="logo logo--footer justify-center mb-3" style="font-size: 1.1rem;">
+                        <img src="/assets/logo.png" alt="Toori Logo">
                         <span>Toori ServiciosYa</span>
                     </div>
                     <p class="text-muted" style="font-size: 0.9rem;">Gestión humana para servicios de confianza.</p>
@@ -83,6 +84,7 @@
     </footer>
 
     <script type="module" src="/src/categorias.ts"></script>
+    <script type="module" src="/src/utils/navbar.ts"></script>
 </body>
 
 </html>

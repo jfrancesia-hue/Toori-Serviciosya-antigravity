@@ -13,13 +13,14 @@
 
     <!-- Navbar -->
     <header class="navbar navbar--sticky">
-        <div class="container">
-            <a href="/" class="logo">
-                <img src="/img/logo-nativos.png" alt="Toori Logo">
+        <div class="container-header">
+            <a href="/" class="logo" style="margin-right: auto;">
+                <img src="/assets/logo.png" alt="Toori Logo">
                 <span>Toori ServiciosYa</span>
             </a>
             <nav class="nav-menu">
-                <a href="/" class="nav-link">Inicio</a>
+                <a href="/" class="nav-link"
+                    style="background: rgba(var(--toori-blue-rgb), 0.1); padding: 8px 20px; border-radius: 50px; color: var(--toori-blue);">Inicio</a>
                 <a href="/ofertas.html" class="nav-link">Ofertas</a>
                 <a href="/registro.html" class="nav-link">Soy Trabajador</a>
             </nav>
@@ -46,8 +47,8 @@
     <!-- Footer -->
     <footer style="padding: 60px 0 40px; background: white; border-top: 1px solid #f0f0f0;">
         <div class="container text-center">
-            <div class="logo justify-center mb-3" style="font-size: 1.1rem;">
-                <img src="/img/logo-nativos.png" alt="Toori Logo">
+            <div class="logo logo--footer justify-center mb-3" style="font-size: 1.1rem;">
+                <img src="/assets/logo.png" alt="Toori Logo">
                 <span>Toori ServiciosYa</span>
             </div>
             <p class="text-muted" style="font-size: 0.8rem;">© 2024 Toori ServiciosYa. Todos los derechos reservados.
@@ -77,6 +78,7 @@
     </style>
 
     <script type="module" src="/src/ofertas.ts"></script>
+    <script type="module" src="/src/utils/navbar.ts"></script>
 </body>
 
 </html>
