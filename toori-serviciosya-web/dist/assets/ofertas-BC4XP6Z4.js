@@ -1,4 +1,4 @@
-import{s as o}from"./supabase-1haNsgbs.js";/* empty css             */import"./navbar-CrOQ-rM0.js";document.addEventListener("DOMContentLoaded",async()=>{const t=document.getElementById("ofertas-container"),r=document.getElementById("loading-ofertas");if(!(!t||!r))try{const{data:e,error:a}=await o.from("nuevaOferta").select("*").eq("estado","pendiente").order("id",{ascending:!1});if(a)throw a;if(r.style.display="none",!e||e.length===0){t.innerHTML=`
+import{s as o}from"./supabase-1haNsgbs.js";/* empty css             */import"./navbar-Dr5c-Pai.js";document.addEventListener("DOMContentLoaded",async()=>{const t=document.getElementById("ofertas-container"),r=document.getElementById("loading-ofertas");if(!(!t||!r))try{const{data:e,error:a}=await o.from("nuevaOferta").select("*").eq("estado","pendiente").order("id",{ascending:!1});if(a)throw a;if(r.style.display="none",!e||e.length===0){t.innerHTML=`
                 <div class="col-12 text-center mt-5">
                     <h4>No hay ofertas pendientes en este momento.</h4>
                     <p class="text-muted">Vuelve más tarde para ver nuevas oportunidades.</p>

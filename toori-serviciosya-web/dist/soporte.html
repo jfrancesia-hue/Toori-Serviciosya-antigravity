@@ -71,9 +71,9 @@
       font-size: 1.5rem;
     }
   </style>
-  <script type="module" crossorigin src="/assets/supabase-1haNsgbs.js"></script>
-  <script type="module" crossorigin src="/assets/navbar-CrOQ-rM0.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-DGHvbARS.css">
+  <script type="module" crossorigin src="./assets/supabase-1haNsgbs.js"></script>
+  <script type="module" crossorigin src="./assets/navbar-Dr5c-Pai.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-D3W1u2cc.css">
 </head>
 
 <body class="bg-light">
@@ -81,12 +81,15 @@
   <!-- Navbar -->
   <header class="navbar navbar--sticky">
     <div class="container-header">
-      <a href="/" class="logo" style="margin-right: auto;">
-        <img src="/assets/logo.png" alt="Toori Logo">
+      <a href="./" class="logo" style="margin-right: auto;">
+        <img src="assets/logo.png" alt="Toori Logo">
         <span>Toori ServiciosYa</span>
       </a>
-      <nav class="nav-menu">
-        <a href="/" class="nav-link">Inicio</a>
+      <div class="menu-toggle" id="mobile-menu-btn">
+        <i class="bi bi-list"></i>
+      </div>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="./" class="nav-link">Inicio</a>
         <a href="/index.html#search-section" class="nav-link">Servicios</a>
         <a href="/login.html" class="nav-link" style="color: var(--toori-blue);">Ingresá</a>
       </nav>
@@ -183,10 +186,10 @@
   <!-- Footer -->
   <footer style="background-color: var(--toori-dark); color: white; padding: 40px 0 20px; margin-top: 80px;">
     <div class="container text-center">
-      <img src="/assets/logo.png" alt="Toori Logo" style="height: 60px; margin-bottom: 20px;">
+      <img src="assets/logo.png" alt="Toori Logo" style="height: 60px; margin-bottom: 20px;">
       <p class="opacity-50 small">© 2024 Toori ServiciosYa · Unimos confianza con soluciones.</p>
       <div class="d-flex justify-content-center gap-3 mt-3">
-        <a href="/Terminos-y-condiciones.html" class="text-white-50 text-decoration-none small">Términos y
+        <a href="Terminos-y-condiciones.html" class="text-white-50 text-decoration-none small">Términos y
           Condiciones</a>
         <a href="/politicas-de-privacidad.html" class="text-white-50 text-decoration-none small">Privacidad</a>
       </div>

@@ -41,6 +41,7 @@ body {
   background-color: var(--bg-white);
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
 }
 
 h1,
@@ -65,6 +66,12 @@ ul {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
 }
 
 .section {
@@ -152,10 +159,57 @@ ul {
   align-items: center;
 }
 
-.nav-link {
+/* Mobile Toggle */
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
   color: var(--toori-dark);
-  font-weight: 500;
-  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 90px;
+    right: -100%;
+    width: 250px;
+    height: calc(100vh - 90px);
+    background: white;
+    flex-direction: column;
+    padding: 40px 24px;
+    gap: 24px;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    align-items: flex-start;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    width: 100%;
+  }
+
+  /* Make logo text smaller on very small screens */
+  .logo span {
+    font-size: 1.1rem;
+    display: none;
+    /* Hide text on mobile to give space if needed, or just smaller */
+  }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .logo span {
+    display: inline;
+    font-size: 1.1rem;
+  }
 }
 
 .nav-link:hover {
@@ -303,6 +357,27 @@ ul {
   color: white;
 }
 
+/* Responsive Typography */
+h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2.8rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
 /* Hero Styles */
 .hero {
   position: relative;
@@ -332,6 +407,17 @@ ul {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 60px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: 60px;
+  }
+
+  .hero .container {
+    gap: 30px;
+  }
 }
 
 @media (max-width: 992px) {

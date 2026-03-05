@@ -60,28 +60,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
 
-            let panelLink = '/';
+            // Dynamic depth detection for relative paths
+            const isInSubfolder = window.location.pathname.includes('/admin/') ||
+                window.location.pathname.includes('/trabajador/') ||
+                window.location.pathname.includes('/cliente/');
+            const prefix = isInSubfolder ? '../' : './';
+
+            let panelLink = prefix;
             let panelLabel = 'Mi Panel';
             let panelIcon = 'bi-grid-fill';
 
             if (role === 'admin') {
-                panelLink = '/admin/index.html';
+                panelLink = prefix + 'admin/index.html';
                 panelLabel = 'Panel Admin';
             } else if (role === 'prestador') {
                 if (hasOficios) {
-                    panelLink = '/trabajador/index.html';
+                    panelLink = prefix + 'trabajador/index.html';
                 } else {
-                    panelLink = '/registro-verifi.html';
+                    panelLink = prefix + 'registro-verifi.html';
                     panelLabel = 'Completar Postulación';
                     panelIcon = 'bi-card-checklist';
                 }
             } else if (role === 'cliente') {
-                panelLink = '/cliente/index.html';
+                panelLink = prefix + 'cliente/index.html';
                 panelLabel = 'Mi Panel';
                 panelIcon = 'bi-person-badge';
             } else {
                 // role === 'none' (New user)
-                panelLink = '/perfil.html';
+                panelLink = prefix + 'perfil.html';
                 panelLabel = 'Completar Perfil';
                 panelIcon = 'bi-person-plus-fill';
             }
@@ -100,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <a href="${panelLink}" class="dropdown-item">
                             <i class="bi ${panelIcon}"></i> ${panelLabel}
                         </a>
-                        <a href="/perfil.html" class="dropdown-item">
+                        <a href="${prefix}perfil.html" class="dropdown-item">
                             <i class="bi bi-gear-fill"></i> Mi Configuración
                         </a>
                         <div class="dropdown-divider"></div>
@@ -130,11 +136,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dropdown?.classList.remove('show');
             });
 
-            // Logout Logic
-            document.getElementById('btn-navbar-logout')?.addEventListener('click', async (e) => {
-                e.preventDefault();
-                await supabase.auth.signOut();
-                window.location.href = '/';
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const navMenuEl = document.getElementById('nav-menu');
+
+            mobileMenuBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navMenuEl?.classList.toggle('active');
+                mobileMenuBtn.querySelector('i')?.classList.toggle('bi-list');
+                mobileMenuBtn.querySelector('i')?.classList.toggle('bi-x');
+            });
+
+            // Close mobile menu on click outside or on a link
+            document.addEventListener('click', (e) => {
+                const target = e.target as HTMLElement;
+                if (!navMenuEl?.contains(target) && !mobileMenuBtn?.contains(target)) {
+                    navMenuEl?.classList.remove('active');
+                    mobileMenuBtn?.querySelector('i')?.classList.add('bi-list');
+                    mobileMenuBtn?.querySelector('i')?.classList.remove('bi-x');
+                }
+            });
+
+            navMenuEl?.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenuEl.classList.remove('active');
+                    mobileMenuBtn?.querySelector('i')?.classList.add('bi-list');
+                    mobileMenuBtn?.querySelector('i')?.classList.remove('bi-x');
+                });
             });
 
         } catch (err) {
