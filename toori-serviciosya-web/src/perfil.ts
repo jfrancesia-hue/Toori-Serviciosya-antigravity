@@ -57,7 +57,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             inputEmail.value = session!.user.email || '';
 
             // Fallback for Photo (Sync with navbar logic)
-            const fotoUrl = perfil?.foto_url || meta?.avatar_url || meta?.picture || '';
+            let rawFotoUrl = perfil?.foto_url;
+
+            // Si es un path de storage, construir la URL pública
+            if (rawFotoUrl && !rawFotoUrl.startsWith('http') && !rawFotoUrl.startsWith('data:')) {
+                const { data: publicUrlData } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(rawFotoUrl);
+                rawFotoUrl = publicUrlData?.publicUrl || rawFotoUrl;
+            }
+
+            const fotoUrl = rawFotoUrl || meta?.avatar_url || meta?.picture || '';
 
             // Fallback for Phone
             const authPhone = session!.user.phone || meta?.phone || meta?.telefono || '';
@@ -80,8 +90,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const nombre = (perfil.nombre || 'User').split(' ')[0];
                 imgProfile.src = fotoUrl || `https://ui-avatars.com/api/?name=${nombre}&background=3ba8e0&color=fff&size=200`;
 
+                const rawRole = (perfil.rol || '').toLowerCase();
+                const isPrestador = rawRole === 'prestador' || rawRole === 'worker' || rawRole === 'trabajador';
+
                 // Handle Worker fields & Reputation
-                if (perfil.rol === 'prestador' || perfil.rol === 'admin') {
+                if (isPrestador || rawRole === 'admin') {
                     workerFields?.classList.remove('d-none');
                     inputCiudad.value = perfil.zona_frecuente || '';
                     if (btnViewPublic) btnViewPublic.href = `/perfil-trabajador.html?id=${userId}`;
@@ -91,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const oficios = Array.isArray(perfil.oficios) ? perfil.oficios : [perfil.oficios];
                         workerOficios.innerHTML = oficios.map((o: string) => `<span class="badge bg-light text-primary border">${o}</span>`).join('');
                     } else if (workerOficios) {
-                        workerOficios.innerHTML = '<span class="text-muted small">Sin oficios asignados. Redígete a "Soy Trabajador" para postularte.</span>';
+                        workerOficios.innerHTML = '<a href="/registro-verifi.html" class="btn btn-sm btn-outline-info w-100 mt-2"><i class="bi bi-card-checklist me-1"></i> Completar Postulación y Oficios</a>';
                     }
 
                     // Fetch Reputation stats
@@ -165,9 +178,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Include worker fields if visible
             const { data: currentProfile } = await supabase.from('sy_perfiles').select('rol, oficios').eq('id', session.user.id).single();
-            const currentRole = isNewUser ? selectedRole : currentProfile?.rol;
+            const currentRole = ((isNewUser ? selectedRole : currentProfile?.rol) || '').toLowerCase();
+            const isPrestadorCurrent = currentRole === 'prestador' || currentRole === 'worker' || currentRole === 'trabajador';
 
-            if (currentRole === 'prestador' || currentRole === 'admin') {
+            if (isPrestadorCurrent || currentRole === 'admin') {
                 updates.zona_frecuente = inputCiudad.value;
             }
 
@@ -186,15 +200,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Transition Logic
             setTimeout(() => {
-                const finalRole = isNewUser ? selectedRole : currentRole;
+                const finalRole = ((isNewUser ? selectedRole : currentProfile?.rol) || '').toLowerCase();
+                const isPrestadorFinal = finalRole === 'prestador' || finalRole === 'worker' || finalRole === 'trabajador';
+
+                let hasOficios = false;
+                if (currentProfile?.oficios) {
+                    if (Array.isArray(currentProfile.oficios)) {
+                        hasOficios = currentProfile.oficios.length > 0;
+                    } else if (typeof currentProfile.oficios === 'string' && currentProfile.oficios.trim() !== '') {
+                        hasOficios = true;
+                    }
+                }
 
                 // If it's a new worker and doesn't have professions yet, send to the recruitment form
-                if (finalRole === 'prestador' && (!currentProfile?.oficios || currentProfile.oficios.length === 0)) {
+                if (isPrestadorFinal && !hasOficios) {
                     alert("¡Bienvenido! Ahora completa tu postulación para que los clientes puedan encontrarte.");
-                    window.location.href = '/registro.html';
+                    window.location.href = '/registro-verifi.html';
                 } else {
                     if (finalRole === 'admin') window.location.href = '/admin/index.html';
-                    else if (finalRole === 'prestador') window.location.href = '/trabajador/index.html';
+                    else if (isPrestadorFinal) window.location.href = '/trabajador/index.html';
                     else window.location.href = '/cliente/index.html';
                 }
             }, 1500);

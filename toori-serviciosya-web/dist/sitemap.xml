@@ -11,4 +11,49 @@
         <priority>0.8</priority>
     </url>
     
+    <url>
+        <loc>https://tooriservicios.com/servicios/limpieza-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/plomeria-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/electricidad-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/gas-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/pintura-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/jardineria-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/albanileria-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/ninera-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://tooriservicios.com/servicios/fletes-san-fernando-del-valle-de-catamarca-catamarca/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
 </urlset>

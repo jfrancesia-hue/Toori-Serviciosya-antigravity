@@ -17,7 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fotoInput = document.getElementById('foto-input') as HTMLInputElement;
     const fotoPreview = document.getElementById('foto-preview') as HTMLImageElement;
 
-    // Files
+    // Category Elements
+    const searchProfesion = document.getElementById('search-profesion') as HTMLInputElement;
+    const btnVerTodas = document.getElementById('btn-ver-todas') as HTMLButtonElement;
+    const catSuggestions = document.getElementById('category-suggestions');
+    const inputProfesionHidden = document.getElementById('reg-profesion') as HTMLInputElement;
+
     let selectedFoto: File | null = null;
     let selectedAntecedentes: File | null = null;
     let selectedMatricula: File | null = null;
@@ -46,6 +51,102 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById('doc-matricula')?.addEventListener('change', (e: any) => {
         selectedMatricula = e.target.files[0];
+    });
+
+    // -- Category Typeahead Logic --
+    const popularCategories = ['Limpieza', 'Plomería', 'Electricidad', 'Gas', 'Pintura', 'Jardinería', 'Albañilería'];
+    let categoriesList: string[] = [];
+    let isCategoriesLoaded = false;
+    let catTimer: any = null;
+
+    async function fetchCategories() {
+        if (isCategoriesLoaded && categoriesList.length > popularCategories.length) return categoriesList;
+        try {
+            const { data, error } = await supabase.from('servicios').select('nombre').order('nombre');
+            if (error) throw error;
+
+            // Filtrar categorías prohibidas legalmente y limpiar nombres
+            const fetched = data
+                .map((d: any) => d.nombre.trim())
+                .filter((name: string) => name.toLowerCase() !== 'niñera');
+
+            // Unión de populares y traídas de DB para no perder consistencia
+            const combined = Array.from(new Set([...popularCategories, ...fetched]));
+            categoriesList = combined.sort();
+
+            isCategoriesLoaded = true;
+            return categoriesList;
+        } catch (e) {
+            console.error('Error loading categories', e);
+            return popularCategories;
+        }
+    }
+
+    function renderCategorySuggestions(cats: string[], title: string = '') {
+        if (!catSuggestions) return;
+
+        let html = '';
+        if (title) {
+            html += `<div class="p-2 px-3 text-muted fw-bold border-bottom bg-light" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">${title}</div>`;
+        }
+
+        if (cats.length === 0) {
+            html += '<div class="p-3 text-center text-muted small">No se encontraron categorías.</div>';
+        } else {
+            html += cats.map(c => `<div class="loc-item cat-item" data-value="${c}">${c}</div>`).join('');
+        }
+
+        catSuggestions.innerHTML = html;
+
+        catSuggestions.querySelectorAll('.cat-item').forEach(el => {
+            el.addEventListener('click', () => {
+                const val = el.getAttribute('data-value') || '';
+                if (searchProfesion) searchProfesion.value = val;
+                if (inputProfesionHidden) inputProfesionHidden.value = val;
+                catSuggestions.style.display = 'none';
+            });
+        });
+
+        catSuggestions.style.display = 'block';
+    }
+
+    searchProfesion?.addEventListener('input', () => {
+        const query = searchProfesion.value.trim().toLowerCase();
+        inputProfesionHidden.value = searchProfesion.value.trim();
+
+        if (catTimer) clearTimeout(catTimer);
+
+        if (query.length === 0) {
+            if (catSuggestions) catSuggestions.style.display = 'none';
+            return;
+        }
+
+        catTimer = setTimeout(async () => {
+            if (catSuggestions) catSuggestions.innerHTML = '<div class="p-3 text-center text-muted small"><div class="spinner-border spinner-border-sm mb-1" role="status"></div></div>';
+            catSuggestions!.style.display = 'block';
+
+            const allCats = await fetchCategories();
+            const filtered = allCats.filter(c => c.toLowerCase().includes(query)).slice(0, 10);
+            renderCategorySuggestions(filtered);
+        }, 300);
+    });
+
+    searchProfesion?.addEventListener('focus', () => {
+        if (!searchProfesion.value.trim()) {
+            renderCategorySuggestions(popularCategories, 'Categorías sugeridas');
+        }
+    });
+
+    btnVerTodas?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (catSuggestions?.style.display === 'block') {
+            catSuggestions.style.display = 'none';
+            return;
+        }
+        if (catSuggestions) catSuggestions.innerHTML = '<div class="p-3 text-center text-muted small"><div class="spinner-border spinner-border-sm mb-1" role="status"></div><br>Cargando...</div>';
+        catSuggestions!.style.display = 'block';
+        const allCats = await fetchCategories();
+        renderCategorySuggestions(allCats, 'Todas las categorías');
     });
 
     // 2. Nominatim Location Logic
@@ -142,12 +243,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const profession = inputProfesionHidden.value.trim();
+        if (!profession) {
+            alertBox.className = 'alert alert-danger mt-3';
+            alertBox.innerHTML = '¡Por favor seleccioná un servicio u oficio de la lista!';
+            alertBox.style.display = 'block';
+            return;
+        }
+
         btnSubmit.disabled = true;
         btnSubmit.innerHTML = `<i class="bi bi-arrow-repeat spin"></i> Procesando...`;
         alertBox.style.display = 'none';
 
         try {
-            const profession = (document.getElementById('reg-profesion') as HTMLSelectElement).value;
             const nombreCompleto = (document.getElementById('reg-nombre') as HTMLInputElement).value.trim();
             const parts = nombreCompleto.split(' ');
             const nombre = parts[0];
@@ -219,11 +327,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (profileError) throw profileError;
 
-            alertBox.className = 'alert alert-success mt-3';
-            alertBox.innerHTML = '¡Tu postulación ha sido enviada con éxito! Revisaremos tu perfil pronto.';
+            // Success and Redirect Flow
+            alertBox.className = 'alert alert-success mt-3 shadow-sm py-4';
+            alertBox.innerHTML = `
+                <div class="text-center">
+                    <i class="bi bi-check-circle-fill h2 d-block mb-3"></i>
+                    <h5 class="fw-bold">¡Tu servicio se ha publicado correctamente!</h5>
+                    <p class="mb-0 small opacity-75">Tu perfil está siendo procesado. Serás redirigido al inicio en unos segundos...</p>
+                </div>
+            `;
             alertBox.style.display = 'block';
-            form.reset();
-            fotoPreview.src = 'https://ui-avatars.com/api/?name=Foto+Perfil&background=e2e8f0&color=64748b&size=150';
+
+            // Wait 3 seconds before redirecting to Home
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 3000);
 
         } catch (err: any) {
             console.error("Critical error in registration:", err);
@@ -238,8 +356,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close suggestions on click outside
     document.addEventListener('click', (e) => {
-        if (!cityInput.contains(e.target as Node) && !locSuggestions?.contains(e.target as Node)) {
+        if (!cityInput?.contains(e.target as Node) && !locSuggestions?.contains(e.target as Node)) {
             if (locSuggestions) locSuggestions.style.display = 'none';
+        }
+        if (!searchProfesion?.contains(e.target as Node) && !btnVerTodas?.contains(e.target as Node) && !catSuggestions?.contains(e.target as Node)) {
+            if (catSuggestions) catSuggestions.style.display = 'none';
         }
     });
 });

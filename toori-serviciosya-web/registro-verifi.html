@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar Perfil Profesional - Toori ServiciosYa</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body style="background-color: var(--bg-soft); min-height: 100vh;">
+
+    <!-- Navbar -->
+    <header class="navbar navbar--sticky">
+        <div class="container-header">
+            <a href="/" class="logo" style="margin-right: auto;">
+                <img src="/assets/logo.png" alt="Toori Logo">
+                <span>Toori ServiciosYa</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="/" class="nav-link"
+                    style="background: rgba(var(--toori-blue-rgb), 0.1); padding: 8px 20px; border-radius: 50px; color: var(--toori-blue);">Inicio</a>
+                <a href="/ofertas.html" class="nav-link">Ofertas</a>
+                <a href="/registro.html" class="nav-link">Soy Trabajador</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 60px 0 100px;">
+        <div class="flex" style="justify-content: center;">
+            <div class="card-premium" style="max-width: 650px; width: 100%; padding: 50px;">
+                <div class="text-center mb-4">
+                    <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Completar mi Perfil</h1>
+                    <p class="text-muted">Cargá tus oficios para ofrecer servicios en Toori.</p>
+                </div>
+
+                <form id="registro-form">
+                    <!-- Photo Upload -->
+                    <div class="text-center mb-4">
+                        <div style="position: relative; display: inline-block;">
+                            <img id="foto-preview"
+                                src="https://ui-avatars.com/api/?name=Foto+Perfil&background=e2e8f0&color=64748b&size=150"
+                                alt="Avatar"
+                                style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 5px solid white; box-shadow: var(--shadow-premium);">
+                            <label for="foto-input"
+                                style="position: absolute; bottom: 5px; right: 5px; background: var(--toori-blue); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 3px solid white;">
+                                <i class="bi bi-camera-fill"></i>
+                            </label>
+                            <input type="file" id="foto-input" accept="image/*" style="display: none;">
+                        </div>
+                        <p class="mt-2 text-muted" style="font-size: 0.8rem;">Foto de perfil profesional</p>
+                        <span class="badge bg-danger mt-1" style="font-size: 0.75rem;"><i
+                                class="bi bi-exclamation-triangle-fill"></i> Obligatoria para ofrecer servicios</span>
+                    </div>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="reg-nombre">Nombre Completo</label>
+                            <input type="text" id="reg-nombre" class="form-control" placeholder="Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-dni">DNI</label>
+                            <input type="text" id="reg-dni" class="form-control" placeholder="12.345.678" required>
+                        </div>
+                    </div>
+
+
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="reg-edad">Edad</label>
+                            <input type="number" id="reg-edad" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-telefono">WhatsApp (Sin 0 ni 15)</label>
+                            <input type="tel" id="reg-telefono" class="form-control" placeholder="Ej: 1123456789"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="position: relative;">
+                        <label for="search-profesion">¿En qué te especializás?</label>
+                        <div class="dropdown-category-wrapper">
+                            <input type="text" id="search-profesion" class="form-control" autocomplete="off"
+                                placeholder="Escribí para buscar o tocá 'Ver todas'...">
+                            <button type="button" id="btn-ver-todas"
+                                class="btn btn-outline-primary btn-sm btn-category-toggle"
+                                style="position: absolute; right: 10px; top: 38px; z-index: 10;">
+                                Ver todas <i class="bi bi-chevron-down ms-1"></i>
+                            </button>
+                        </div>
+                        <div id="category-suggestions" class="loc-suggestions">
+                            <div class="p-3 text-center text-muted small">
+                                <div class="spinner-border spinner-border-sm mb-1" role="status"></div><br>Cargando
+                                categorías...
+                            </div>
+                        </div>
+                        <input type="hidden" id="reg-profesion" required>
+                    </div>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group" style="position: relative;">
+                            <label for="reg-ciudad">¿Dónde ofrecés tus servicios?</label>
+                            <div class="flex" style="gap: 10px;">
+                                <input type="text" id="reg-ciudad" class="form-control" placeholder="Buscar ciudad..."
+                                    required autocomplete="off">
+                                <button type="button" id="btn-gps" class="btn btn-secondary"
+                                    style="padding: 0 15px; background: white; border: 1px solid var(--toori-gray); color: var(--toori-blue);">
+                                    <i class="bi bi-crosshairs"></i>
+                                </button>
+                            </div>
+                            <div id="loc-suggestions" class="loc-suggestions"></div>
+                            <input type="hidden" id="reg-lat">
+                            <input type="hidden" id="reg-lon">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-antiguedad">Años de experiencia</label>
+                            <input type="number" id="reg-antiguedad" class="form-control" value="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-antecedentes">Contanos sobre vos (Opcional)</label>
+                        <textarea id="reg-antecedentes" class="form-control" rows="3"
+                            placeholder="Breve resumen de tus trabajos anteriores..."></textarea>
+                    </div>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="doc-antecedentes">Certificado de Antecedentes (Opcional)</label>
+                            <input type="file" id="doc-antecedentes" class="form-control" accept=".pdf,image/*">
+                            <small class="text-muted">PDF o imagen.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="doc-matricula">Matrícula / Habilitación (Opcional)</label>
+                            <input type="file" id="doc-matricula" class="form-control" accept=".pdf,image/*">
+                            <small class="text-muted">PDF o imagen.</small>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(var(--toori-blue-rgb), 0.05); padding: 15px; border-radius: 12px; margin-bottom: 24px; border: 1px dashed var(--toori-blue);">
+                        <p
+                            style="margin: 0; font-size: 0.85rem; color: var(--toori-blue); font-weight: 600; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;">
+                            <i class="bi bi-info-circle-fill" style="margin-top: 2px;"></i>
+                            <span>Subir matrícula y antecedentes te convierte en trabajador verificado (✓) en tu
+                                perfil.</span>
+                        </p>
+                    </div>
+
+                    <div class="form-group"
+                        style="display: flex; align-items: flex-start; gap: 10px; margin-top: 10px;">
+                        <input type="checkbox" id="reg-terminos"
+                            style="width: 20px; height: 20px; cursor: pointer; border-radius: 6px; margin-top: 3px;"
+                            required>
+                        <label for="reg-terminos" style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.4;">Acepto
+                            los <a href="/Terminos-y-condiciones.html"
+                                style="color: var(--toori-blue); font-weight: 600;">Términos y Condiciones</a></label>
+                    </div>
+
+                    <button type="submit" id="btn-submit-reg" class="btn btn-primary w-100 mt-4"
+                        style="padding: 18px; font-size: 1.1rem;">
+                        Enviar mi postulación
+                    </button>
+
+                    <div id="reg-alert" class="mt-4"
+                        style="display: none; padding: 20px; border-radius: 15px; font-size: 0.95rem; text-align: center;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="padding: 60px 0 40px; background: white; border-top: 1px solid #f0f0f0;">
+        <div class="container text-center">
+            <div class="logo logo--footer justify-center mb-3" style="font-size: 1.1rem;">
+                <img src="/assets/logo.png" alt="Toori Logo">
+                <span>Toori ServiciosYa</span>
+            </div>
+            <p class="text-muted" style="font-size: 0.8rem;">© 2024 Toori ServiciosYa. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <style>
+        .justify-center {
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--toori-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--toori-gray);
+            font-family: var(--font-body);
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--toori-blue);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 168, 224, 0.1);
+        }
+
+        select.form-control {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--toori-blue);
+        }
+
+        .loc-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--toori-gray);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: var(--shadow-premium);
+            display: none;
+        }
+
+        .loc-item {
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .loc-item:last-child {
+            border-bottom: none;
+        }
+
+        .loc-item:hover {
+            background: rgba(var(--toori-blue-rgb), 0.05);
+        }
+    </style>
+
+    <script type="module" src="/src/registro-verifi.ts"></script>
+    <script type="module" src="/src/utils/navbar.ts"></script>
+</body>
+
+</html>

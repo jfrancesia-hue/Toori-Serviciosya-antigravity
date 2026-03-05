@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Toori ServiciosYa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --toori-blue: #00C2CB;
+            --toori-dark: #1e293b;
+            --toori-purple: #8B5CF6;
+            --bg-color: #f1f5f9;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background: var(--toori-dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .nav-links li {
+            padding: 8px 16px;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-footer {
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #btn-logout {
+            cursor: pointer;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        #btn-logout:hover {
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 260px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        /* KPI Cards */
+        .kpi-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .kpi-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .kpi-icon.blue {
+            background: rgba(0, 194, 203, 0.1);
+            color: var(--toori-blue);
+        }
+
+        .kpi-icon.purple {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--toori-purple);
+        }
+
+        .kpi-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--toori-dark);
+            line-height: 1.2;
+        }
+
+        /* Table Card */
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .badge-estado {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .bg-pendiente {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .bg-en_proceso {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+
+        .bg-completado {
+            background-color: #dcfce3;
+            color: #166534;
+        }
+
+        .bg-cancelado {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/admin-BCvS94lT.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-1haNsgbs.js">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h5 class="m-0 fw-bold d-flex align-items-center">
+                <i class="bi bi-shield-lock-fill text-info me-2"></i> Toori Admin
+            </h5>
+        </div>
+        <ul class="nav-links mt-4">
+            <li><a href="#" class="active"><i class="bi bi-grid-1x2"></i> Panel de Control</a></li>
+            <li><a href="#"><i class="bi bi-kanban"></i> Tablero de Pedidos</a></li>
+            <li><a href="#"><i class="bi bi-people"></i> Prestadores</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div id="admin-user-info" class="mb-3 text-muted small"></div>
+            <div id="btn-logout"><i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión</div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Auth Loader -->
+        <div id="page-loader"
+            style="position: fixed; top: 0; left: 260px; right:0; bottom:0; background: #f1f5f9; z-index: 50; display:flex; align-items:center; justify-content:center;">
+            <div class="spinner-border text-info" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Autorizando...</span>
+            </div>
+        </div>
+
+        <div id="dashboard-content" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h2 class="fw-bold mb-1">Centro de Gestión</h2>
+                    <p class="text-muted">Métricas y pedidos en tiempo real.</p>
+                </div>
+                <button class="btn btn-primary"
+                    style="background-color: var(--toori-blue); border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600;">
+                    <i class="bi bi-plus-lg me-2"></i> Cargar Pedido Manual
+                </button>
+            </div>
+
+            <!-- KPIs -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="bi bi-inbox"></i></div>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">Nuevos (Hoy)</div>
+                            <div class="kpi-value" id="kpi-nuevos">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon purple"><i class="bi bi-arrow-repeat"></i></div>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">En Gestión</div>
+                            <div class="kpi-value" id="kpi-proceso">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon green"><i class="bi bi-check-circle"></i></div>
+                        <div>
+                            <div class="text-muted small fw-bold text-uppercase">Completados (Mes)</div>
+                            <div class="kpi-value" id="kpi-completados">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pedidos Recientes -->
+            <div class="table-card mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold m-0"><i class="bi bi-list-task me-2 text-primary"></i> Ingresos Recientes</h5>
+                    <button class="btn btn-sm btn-light border" id="btn-refresh-pedidos"><i
+                            class="bi bi-arrow-clockwise"></i> Actualizar</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Categoría</th>
+                                <th>Zona</th>
+                                <th>Cliente</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedidos-table-body">
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div> Cargando
+                                    datos...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Auditoría de Prestadores -->
+            <div class="table-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold m-0"><i class="bi bi-person-badge me-2 text-warning"></i> Auditoría de
+                        Prestadores (Pendientes)</h5>
+                    <button class="btn btn-sm btn-light border" id="btn-refresh-audit"><i
+                            class="bi bi-arrow-clockwise"></i> Actualizar</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>DNI</th>
+                                <th>Oficios</th>
+                                <th>Zona</th>
+                                <th>Documentos</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="audit-table-body">
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div> Cargando
+                                    datos...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Asignación de Pedido -->
+    <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content"
+                style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+                <div class="modal-header" style="border-bottom: 1px solid #f1f5f9; padding: 24px;">
+                    <h5 class="modal-title fw-bold" id="assignModalLabel">Detalle del Pedido <span id="modal-ticket-id"
+                            class="text-primary"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 24px;">
+                    <div class="mb-4">
+                        <p class="text-muted small fw-bold text-uppercase mb-1">Información del Cliente</p>
+                        <p class="mb-0" id="modal-cliente-info"><i class="bi bi-person"></i> Cargando...</p>
+                        <p class="mb-0 mt-1"><i class="bi bi-geo-alt"></i> <span id="modal-zona">...</span></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <p class="text-muted small fw-bold text-uppercase mb-1">Servicio Requerido</p>
+                        <h5 class="mb-1" id="modal-categoria">...</h5>
+                        <p class="text-muted" style="font-size: 0.9rem;" id="modal-descripcion">...</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold text-uppercase">Asignar a Prestador</label>
+                        <select class="form-select" id="select-prestador" style="border-radius: 10px; padding: 12px;">
+                            <option value="">Seleccione un prestador (buscando...)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #f1f5f9; padding: 20px 24px;">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                        style="border-radius: 8px;">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-assignment"
+                        style="background: var(--toori-blue); border: none; border-radius: 8px; padding: 8px 24px;">Confirmar
+                        Asignación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

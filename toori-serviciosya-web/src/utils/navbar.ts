@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Check for existing "Ingresá" link and mark it for replacement
     const loginLink = Array.from(navMenu.querySelectorAll('.nav-link')).find(el => el.textContent?.trim() === 'Ingresá');
 
+    // Force session refresh to bypass stubborn localStorage caches
+    await supabase.auth.refreshSession();
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session) {
@@ -16,30 +18,73 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const { data: perfil } = await supabase
                 .from('sy_perfiles')
-                .select('nombre, foto_url, rol')
+                .select('nombre, foto_url, rol, oficios')
                 .eq('id', session.user.id)
                 .single();
 
-            // Fallback strategy for Name:
-            // 1. Database perfil.nombre
-            // 2. Auth user_metadata (full_name, name, or email)
-            // 3. Static fallback
+            // ... (rest of fallback name/photo logic) ...
             const meta = session.user.user_metadata;
             const fallbackName = meta?.full_name || meta?.nombre || meta?.name || session.user.email?.split('@')[0] || 'Mi Perfil';
             const nombreCompleto = perfil?.nombre || fallbackName;
             const nombre = nombreCompleto.split(' ')[0];
 
-            const foto = perfil?.foto_url || meta?.avatar_url || `https://ui-avatars.com/api/?name=${nombre}&background=3ba8e0&color=fff`;
+            // Avatar Logic Fix: Handle edge cases safely
+            let rawFotoUrl = perfil?.foto_url;
 
-            // Define panel link based on role
-            // Fallback for role: 1. sy_perfiles, 2. user_metadata, 3. /perfil.html if missing
-            const role = perfil?.rol || meta?.role || (perfil ? 'cliente' : 'none');
+            // Check if foto_url is a Supabase Storage path instead of a full URL
+            if (rawFotoUrl && !rawFotoUrl.startsWith('http') && !rawFotoUrl.startsWith('data:')) {
+                const { data: publicUrlData } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(rawFotoUrl);
+                rawFotoUrl = publicUrlData?.publicUrl || rawFotoUrl;
+            }
+
+            let foto = rawFotoUrl || meta?.avatar_url || meta?.picture;
+            if (!foto || foto.trim() === '') {
+                foto = `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=3ba8e0&color=fff`;
+            }
+
+            const dbRol = perfil?.rol || meta?.role || (perfil ? 'cliente' : 'none');
+            const rawRole = dbRol.toLowerCase();
+            let role = rawRole;
+            if (rawRole === 'worker' || rawRole === 'trabajador') role = 'prestador';
+
+            // STRICT calculation for "hasOficios"
+            // It only has oficios if it's an array with at least length 1. Otherwise it's false.
+            let hasOficios = false;
+            if (perfil?.oficios) {
+                if (Array.isArray(perfil.oficios)) {
+                    hasOficios = perfil.oficios.length > 0;
+                } else if (typeof perfil.oficios === 'string' && perfil.oficios.trim() !== '') {
+                    hasOficios = true;
+                }
+            }
 
             let panelLink = '/';
-            if (role === 'admin') panelLink = '/admin/index.html';
-            else if (role === 'prestador') panelLink = '/trabajador/index.html';
-            else if (role === 'cliente') panelLink = '/cliente/index.html';
-            else panelLink = '/perfil.html';
+            let panelLabel = 'Mi Panel';
+            let panelIcon = 'bi-grid-fill';
+
+            if (role === 'admin') {
+                panelLink = '/admin/index.html';
+                panelLabel = 'Panel Admin';
+            } else if (role === 'prestador') {
+                if (hasOficios) {
+                    panelLink = '/trabajador/index.html';
+                } else {
+                    panelLink = '/registro-verifi.html';
+                    panelLabel = 'Completar Postulación';
+                    panelIcon = 'bi-card-checklist';
+                }
+            } else if (role === 'cliente') {
+                panelLink = '/cliente/index.html';
+                panelLabel = 'Mi Panel';
+                panelIcon = 'bi-person-badge';
+            } else {
+                // role === 'none' (New user)
+                panelLink = '/perfil.html';
+                panelLabel = 'Completar Perfil';
+                panelIcon = 'bi-person-plus-fill';
+            }
 
             const profileHtml = `
                 <div class="nav-profile" id="profile-trigger">
@@ -53,8 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <span class="fw-bold">${nombre}</span>
                         </div>
                         <a href="${panelLink}" class="dropdown-item">
-                            <i class="bi ${role === 'none' ? 'bi-person-plus-fill' : 'bi-grid-fill'}"></i> 
-                            ${role === 'none' ? 'Completar Registro' : 'Mi Panel'}
+                            <i class="bi ${panelIcon}"></i> ${panelLabel}
                         </a>
                         <a href="/perfil.html" class="dropdown-item">
                             <i class="bi bi-gear-fill"></i> Mi Configuración

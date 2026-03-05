@@ -58,8 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .from('sy_pedidos')
                 .select(`
                     id, categoria, descripcion, estado, created_at, prestador_id,
-                    sy_perfiles!prestador_id(nombre, foto_url),
-                    sy_resenas(id)
+                    sy_perfiles!prestador_id(nombre, foto_url)
                 `)
                 .eq('cliente_id', session!.user.id)
                 .order('created_at', { ascending: false });
@@ -73,12 +72,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
+            // Optionally fetch reviews in a separate request to avoid schema cache crash
+            let reviewedPedidoIds = new Set();
+            try {
+                const pIds = pedidos.map((p: any) => p.id);
+                const { data: resenas } = await supabase.from('sy_resenas').select('pedido_id').in('pedido_id', pIds);
+                if (resenas) {
+                    resenas.forEach((r: any) => reviewedPedidoIds.add(r.pedido_id));
+                }
+            } catch (e) { console.warn('Podes ignorar si falla traer reseñas: ', e); }
+
             // Render Pedidos
             const html = pedidos.map(pedido => {
                 const prestador = Array.isArray(pedido.sy_perfiles) ? pedido.sy_perfiles[0] : pedido.sy_perfiles;
                 const date = new Date(pedido.created_at).toLocaleDateString();
 
-                const hasReview = Array.isArray(pedido.sy_resenas) ? pedido.sy_resenas.length > 0 : !!pedido.sy_resenas;
+                const hasReview = reviewedPedidoIds.has(pedido.id);
 
                 let actionBtn = '';
                 if (pedido.estado === 'completado' && !hasReview) {

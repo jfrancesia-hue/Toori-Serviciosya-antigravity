@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Render Badges (Oficios)
         if (workerBadges && worker.oficios) {
             const oficios = Array.isArray(worker.oficios) ? worker.oficios : [worker.oficios];
-            workerBadges.innerHTML = oficios.map((o: string) => `<span class="badge bg-white text-primary border px-3 py-2 rounded-pill shadow-sm">${o}</span>`).join('');
+            workerBadges.innerHTML = oficios.map((o: string) => `<span class="badge badge-oficio px-3 py-2 rounded-pill shadow-sm">${o}</span>`).join('');
         }
 
         // Render Stars
@@ -71,8 +71,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const stars = reputacion?.promedio_estrellas || 0;
             let starsHtml = '';
             for (let i = 1; i <= 5; i++) {
-                if (i <= stars) starsHtml += '<i class="bi bi-star-fill h4"></i> ';
-                else starsHtml += '<i class="bi bi-star h4"></i> ';
+                if (i <= stars) starsHtml += '<i class="bi bi-star-fill text-warning"></i> ';
+                else starsHtml += '<i class="bi bi-star text-muted opacity-50"></i> ';
             }
             workerRatingDisplay.innerHTML = starsHtml;
         }
@@ -89,22 +89,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     let starsHtml = '';
                     for (let i = 1; i <= 5; i++) {
-                        starsHtml += i <= r.rating ? '<i class="bi bi-star-fill small"></i>' : '<i class="bi bi-star small"></i>';
+                        starsHtml += i <= r.rating ? '<i class="bi bi-star-fill text-warning small"></i>' : '<i class="bi bi-star text-muted opacity-50 small"></i>';
                     }
 
                     return `
                         <div class="review-card shadow-sm">
                             <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="${cliente?.foto_url || `https://ui-avatars.com/api/?name=${cliente?.nombre || 'C'}`}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="${cliente?.foto_url || `https://ui-avatars.com/api/?name=${cliente?.nombre || 'C'}`}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                                     <div>
-                                        <strong class="d-block small">${cliente?.nombre || 'Cliente Toori'}</strong>
-                                        <div class="star-rating text-warning" style="font-size: 0.7rem;">${starsHtml}</div>
+                                        <strong class="d-block text-dark small">${cliente?.nombre || 'Cliente Toori'}</strong>
+                                        <div class="star-rating" style="font-size: 0.7rem;">${starsHtml}</div>
                                     </div>
                                 </div>
                                 <small class="text-muted" style="font-size: 0.75rem;">${date}</small>
                             </div>
-                            <p class="mb-0 text-muted small" style="line-height: 1.6 italic;">
+                            <p class="mb-0 text-muted small" style="line-height: 1.6; font-style: italic;">
                                 "${r.comentario || 'El cliente no dejó comentarios, pero calificó el servicio satisfactoriamente.'}"
                             </p>
                         </div>
@@ -117,11 +117,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (loader) loader.classList.add('d-none');
         if (content) content.classList.remove('d-none');
 
-        // Contratar flow
+        // Contratar flow (Centralizado en Toori Bot)
         if (btnContratar) {
             btnContratar.addEventListener('click', () => {
-                const msg = `Hola ${worker.nombre}, vi tu perfil en Toori y me gustaría consultarte por un servicio...`;
-                window.open(`https://wa.me/${worker.telefono?.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(msg)}`, '_blank');
+                const centerNumber = '5493512139046'; // Número central de Toori
+                const msg = `¡Hola Toori! 👋 Me interesa contratar a ${worker.nombre} (ID: ${worker.id}). ¿Me ayudan a coordinar el servicio?`;
+                window.open(`https://wa.me/${centerNumber}?text=${encodeURIComponent(msg)}`, '_blank');
             });
         }
 

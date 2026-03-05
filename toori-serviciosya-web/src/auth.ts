@@ -46,32 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function redirectBasedOnRole(userId: string) {
-        try {
-            // Obtener el rol desde la tabla perfiles de ServiciosYa
-            const { data: perfil, error } = await supabase
-                .from('sy_perfiles')
-                .select('rol')
-                .eq('id', userId)
-                .single();
-
-            if (error) {
-                console.warn("Could not fetch user role, defaulting to '/'", error);
-                window.location.href = '/';
-                return;
-            }
-
-            // Redirect logic based on role
-            if (perfil?.rol === 'admin') {
-                window.location.href = '/admin/index.html';
-            } else if (perfil?.rol === 'prestador') {
-                window.location.href = '/trabajador/index.html';
-            } else if (perfil?.rol === 'cliente') {
-                window.location.href = '/cliente/index.html';
-            } else {
-                window.location.href = '/';
-            }
-        } catch (e) {
-            window.location.href = '/';
-        }
+        // En base a la última instrucción del negocio, todos los logueos 
+        // conducen al Inicio. Luego el usuario decidirá si entrar a su panel usando el Navbar.
+        window.location.href = '/index.html';
     }
 });

@@ -1,191 +1,200 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Soporte - Toori ServiciosYa</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soporte y Ayuda - Toori ServiciosYa</title>
+  <meta name="description"
+    content="¿Necesitás ayuda con Toori? Encontrá respuestas a tus dudas o contactate con nuestro equipo de soporte técnico.">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    :root {
-      --verde: #00bfa6;
-      --naranja: #ff7300;
-      --blanco: #ffffff;
-      --gris: #f2f2f2;
+    .support-hero {
+      background: linear-gradient(135deg, var(--toori-blue) 0%, #1d4ed8 100%);
+      padding: 80px 0;
+      color: white;
+      text-align: center;
     }
 
-    * {
-      margin: 0;
+    .faq-card {
+      background: white;
+      border-radius: 20px;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--gris);
-      color: #333;
-    }
-
-    header {
-      background-color: var(--verde);
-      color: var(--blanco);
-      padding: 2rem 1rem;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-
-    header p {
-      margin-top: 0.5rem;
-      font-size: 1rem;
-      color: #e0f7f4;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: var(--blanco);
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .intro {
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .intro p {
-      font-size: 1.1rem;
-      color: #555;
-    }
-
-    .faq-item {
-      border-bottom: 1px solid var(--gris);
-    }
-
-    .faq-question {
-      background: none;
-      padding: 1rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: color 0.3s;
-      position: relative;
-    }
-
-    .faq-question:hover {
-      color: var(--naranja);
-    }
-
-    .faq-question::after {
-      content: '+';
-      position: absolute;
-      right: 1rem;
-      font-size: 1.2rem;
-      transition: transform 0.3s;
-    }
-
-    .faq-question.open::after {
-      content: '-';
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease;
-      padding: 0 1rem;
-      background: var(--gris);
+      box-shadow: var(--shadow-premium);
+      border: 1px solid #f1f5f9;
     }
 
-    .faq-answer.open {
-      max-height: 300px;
-      padding: 1rem;
+    .accordion-item {
+      border: none;
+      border-bottom: 1px solid #f1f5f9;
     }
 
-    footer {
+    .accordion-button:not(.collapsed) {
+      background-color: rgba(0, 194, 203, 0.05);
+      color: var(--toori-blue);
+      box-shadow: none;
+    }
+
+    .accordion-button:focus {
+      box-shadow: none;
+      border-color: rgba(0, 194, 203, 0.1);
+    }
+
+    .contact-box {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
       text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      margin-top: 3rem;
-      padding: 2rem 1rem;
+      height: 100%;
+      border: 1px solid #f1f5f9;
+      transition: transform 0.2s;
     }
 
-    a {
-      color: var(--verde);
-      text-decoration: none;
+    .contact-box:hover {
+      transform: translateY(-5px);
     }
 
-    a:hover {
-      color: var(--naranja);
+    .round-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 194, 203, 0.1);
+      color: var(--toori-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.5rem;
     }
   </style>
+  <script type="module" crossorigin src="/assets/supabase-1haNsgbs.js"></script>
+  <script type="module" crossorigin src="/assets/navbar-CrOQ-rM0.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-DGHvbARS.css">
 </head>
-<body>
 
-<header>
-  <h1>Soporte y Ayuda</h1>
-  <p>
-    Para dudas también podés escribirnos a 
-    <a href="mailto:serviciosya.desarrollador@gmail.com" style="color: #ffffff; text-decoration: underline;">
-      serviciosya.desarrollador@gmail.com
-    </a> 
-    o enviarnos un mensaje por 
-    <a href="https://www.instagram.com/serviciosyaoficial/" target="_blank" style="color: #ffffff; text-decoration: underline;">
-      Instagram
-    </a>.
-  </p>
-</header>
+<body class="bg-light">
 
-<main>
-  <section class="intro">
-    <p>¿Tenés dudas sobre el uso de Toori ServiciosYa? Acá podés encontrar respuestas rápidas o contactarnos.</p>
-  </section>
+  <!-- Navbar -->
+  <header class="navbar navbar--sticky">
+    <div class="container-header">
+      <a href="/" class="logo" style="margin-right: auto;">
+        <img src="/assets/logo.png" alt="Toori Logo">
+        <span>Toori ServiciosYa</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="/" class="nav-link">Inicio</a>
+        <a href="/index.html#search-section" class="nav-link">Servicios</a>
+        <a href="/login.html" class="nav-link" style="color: var(--toori-blue);">Ingresá</a>
+      </nav>
+    </div>
+  </header>
 
-  <section class="faq">
-    <div class="faq-item">
-      <div class="faq-question">¿Cómo me registro en la app?</div>
-      <div class="faq-answer">
-        Ingresá a la app, seleccioná tu rol (buscar o ofrecer servicios) y completá los datos personales.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Olvidé mi contraseña, ¿cómo la recupero?</div>
-      <div class="faq-answer">
-        Desde la pantalla de inicio de sesión, hacé clic en “¿Olvidaste tu contraseña?” y seguí los pasos para restablecerla.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">¿Cómo contacto al soporte técnico?</div>
-      <div class="faq-answer">
-        Podés escribirnos a <a href="mailto:soporte@serviciosya.info">soporte@serviciosya.info</a> o llamarnos al +54 9 1111-223344.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">¿Puedo cambiar mi rol luego de registrarme?</div>
-      <div class="faq-answer">
-        Sí, podés modificar tu rol desde la sección de perfil en la app en cualquier momento.
-      </div>
+  <section class="support-hero">
+    <div class="container">
+      <h1 class="fw-bold mb-3">¿Cómo podemos ayudarte?</h1>
+      <p class="opacity-75 lead">Estamos acá para resolver todas tus dudas sobre Toori</p>
     </div>
   </section>
-</main>
 
-<footer>
-  <p>&copy; 2025 Toori ServiciosYa · <a href="/">Volver al inicio</a></p>
-</footer>
+  <main class="container py-5" style="margin-top: -40px;">
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="contact-box shadow-sm">
+          <div class="round-icon"><i class="bi bi-whatsapp"></i></div>
+          <h5 class="fw-bold">WhatsApp Bot</h5>
+          <p class="text-muted small">Escribinos para una respuesta automática e inmediata.</p>
+          <a href="https://wa.me/5493512139046?text=Hola!%20Necesito%20ayuda%20con%20Toori"
+            class="btn btn-outline-primary rounded-pill px-4">Chatbot</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-box shadow-sm">
+          <div class="round-icon"><i class="bi bi-envelope-at"></i></div>
+          <h5 class="fw-bold">Email</h5>
+          <p class="text-muted small">Para consultas más complejas o administrativas.</p>
+          <a href="mailto:soporte@tooriservicios.com" class="btn btn-outline-primary rounded-pill px-4">Enviar Mail</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="contact-box shadow-sm">
+          <div class="round-icon"><i class="bi bi-instagram"></i></div>
+          <h5 class="fw-bold">Instagram</h5>
+          <p class="text-muted small">Seguinos y envianos un mensaje directo por redes.</p>
+          <a href="https://www.instagram.com/tooriservicios" target="_blank"
+            class="btn btn-outline-primary rounded-pill px-4">Ir a Instagram</a>
+        </div>
+      </div>
+    </div>
 
-<script>
-  const questions = document.querySelectorAll('.faq-question');
-  questions.forEach(q => {
-    q.addEventListener('click', () => {
-      const answer = q.nextElementSibling;
-      q.classList.toggle('open');
-      answer.classList.toggle('open');
-    });
-  });
-</script>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <h3 class="fw-bold mb-4 text-center">Preguntas Frecuentes</h3>
+        <div class="faq-card accordion shadow-sm" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                ¿Cómo solicito un servicio?
+              </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted">
+                Es muy simple. Elegí la categoría que necesitás en el inicio, completá los detalles de tu pedido y hacé
+                clic en solicitar. Nuestro bot de WhatsApp te conectará con el mejor prestador disponible.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faq2">
+                ¿Qué pasa si el trabajador no asiste?
+              </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted">
+                Toori te respalda. Si tenés algún inconveniente con el prestador, informalo inmediatamente a nuestro
+                soporte por WhatsApp y buscaremos una solución o un reemplazo a la brevedad.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faq3">
+                ¿Cómo me registro para ofrecer servicios?
+              </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-muted">
+                Andá a la sección "Soy Trabajador" en el menú, completá tu postulación con tus datos y documentación.
+                Una vez verificado tu perfil, empezarás a recibir ofertas de trabajo en tu zona.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
+  <!-- Footer -->
+  <footer style="background-color: var(--toori-dark); color: white; padding: 40px 0 20px; margin-top: 80px;">
+    <div class="container text-center">
+      <img src="/assets/logo.png" alt="Toori Logo" style="height: 60px; margin-bottom: 20px;">
+      <p class="opacity-50 small">© 2024 Toori ServiciosYa · Unimos confianza con soluciones.</p>
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <a href="/Terminos-y-condiciones.html" class="text-white-50 text-decoration-none small">Términos y
+          Condiciones</a>
+        <a href="/politicas-de-privacidad.html" class="text-white-50 text-decoration-none small">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
